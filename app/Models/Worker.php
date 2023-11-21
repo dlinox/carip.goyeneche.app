@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Worker extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'fullname',
+        'description',
+        'person_id',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
+
+    public $headers =  [
+        ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Nombre", 'value' => "fullname", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Descripción", 'value' => "description", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Estado", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
+    ];
+
+    static public function registerNew($request, $person)
+    {
+        $user = new Worker();
+        $user->fullname = $request->name . ' ' . $request->fatherLastName . ' ' . $request->motherLastName;
+        $user->description = $request->description;
+        $user->person_id = $person;
+        $user->save();
+        return $user;
+    }
+}
