@@ -5,12 +5,12 @@
         @onCancel="$emit('onCancel')"
         @onSumbit="submit"
     >
-        <template #field.photo>
+        <template #field.img_path>
             <v-card variant="tonal">
                 <CropCompressImage
                     :aspect-ratio="16 / 9"
                     @onCropper="
-                        (previewImg = $event.blob), (form.photo = $event.file)
+                        (previewImg = $event.blob), (form.img_path = $event.file)
                     "
                 />
 
@@ -64,7 +64,7 @@ const props = defineProps({
 
 const previewImg = ref(null);
 
-const form = useForm({ ...props.formData, photo: null });
+const form = useForm({ ...props.formData, img_path: null });
 
 const submit = async () => {
 

@@ -3,24 +3,23 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
-use App\Models\Circuit;
+use App\Models\ServicePortfolio;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class CircuitController extends Controller
+class ServicePortfolioController extends Controller
 {
 
-
-    protected $circuit;
+    protected $servicePortfolio;
     public function __construct()
     {
-        $this->circuit = new Circuit();
+        $this->servicePortfolio = new ServicePortfolio();
     }
-    
+
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $query = Circuit::query();
+        $query = ServicePortfolio::query();
         // Búsqueda por nombre de área
         if ($request->has('search')) {
             $searchTerm = $request->search;
@@ -29,9 +28,9 @@ class CircuitController extends Controller
         // Obtener resultados paginados
         $items = $query->paginate($perPage)->appends($request->query());
 
-        return Inertia::render('admin/circuit/index', [
+        return Inertia::render('admin/servicePortfolio/index', [
             'items' => $items,
-            'headers' => $this->circuit->headers,
+            'headers' => $this->servicePortfolio->headers,
             'filters' => [
                 'search' => $request->search,
             ],
@@ -42,29 +41,28 @@ class CircuitController extends Controller
     {
         $request->validate([
             'guideName' => 'required',
-            'guideFile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'guideFile' => 'required|file|mimes:pdf',
             'resolutionName' => 'required',
-            'resolutionFile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            
+            'resolutionFile' => 'required|file|mimes:pdf',
         ]);
 
-        //$request->file('organigram')->store('organigram', 'public');
-        $circuit = Circuit::create([
+        ServicePortfolio::create([
             'guide_name' => $request->guideName,
-            'guide_file' => $request->file('guideFile')->store('circuit/guides', 'public'),
+            'guide_file' => $request->file('guideFile')->store('servicePorfolio/guide', 'public'),
             'resolution_name' => $request->resolutionName,
-            'resolution_file' => $request->file('resolutionFile')->store('circuit/resolutions', 'public'),
+            'resolution_file' => $request->file('resolutionFile')->store('servicePorfolio/resolutions', 'public'),
         ]);
 
-        return redirect()->back()->with('success', 'Circuit created.');
+        return redirect()->back()->with('success', 'ServicePortfolio created.');
     }
+
 
     public function changeState($id)
     {
-        $circuit = Circuit::find($id);
-        $circuit->is_active = !$circuit->is_active;
-        $circuit->save();
+        $servicePortfolio = ServicePortfolio::find($id);
+        $servicePortfolio->is_active = !$servicePortfolio->is_active;
+        $servicePortfolio->save();
 
-        return redirect()->back()->with('success', 'Circuit updated.');
+        return redirect()->back()->with('success', 'ServicePortfolio updated.');
     }
 }

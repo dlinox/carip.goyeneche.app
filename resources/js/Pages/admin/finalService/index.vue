@@ -1,6 +1,6 @@
 <template>
     <AdminLayout>
-        <HeadingPage title="Usuarios" subtitle="Gestion de usuarios">
+        <HeadingPage title="Servicios Finales" subtitle="Gestion de general">
             <template #actions>
                 <BtnDialog title="Nuevo" width="700px">
                     <template v-slot:activator="{ dialog }">
@@ -13,11 +13,16 @@
                         </v-btn>
                     </template>
                     <template v-slot:content="{ dialog }">
-                        <create @on-cancel="dialog" :url="url" />
+                        <create
+                            :form-structure="formStructure"
+                            @on-cancel="dialog"
+                            :url="url"
+                        />
                     </template>
                 </BtnDialog>
             </template>
         </HeadingPage>
+
         <v-container fluid>
             <v-card>
                 <v-card-item>
@@ -29,6 +34,7 @@
                     >
                         <template v-slot:header="{ filter }">
                             <v-row class="py-3" justify="end">
+                                <v-col cols="6"> </v-col>
                                 <v-col cols="6">
                                     <v-text-field
                                         v-model="filter.search"
@@ -36,6 +42,15 @@
                                     />
                                 </v-col>
                             </v-row>
+                        </template>
+
+                        <template v-slot:item.photo="{ item }">
+                            <v-img
+                                v-if="item.photo"
+                                :src="`/storage/${item.photo}`"
+                                width="50px"
+                                height="50px"
+                            />
                         </template>
 
                         <template v-slot:item.is_active="{ item }">
@@ -78,9 +93,10 @@
                                 <template v-slot:content="{ dialog }">
                                     <create
                                         @on-cancel="dialog"
+                                        :formStructure="formStructure"
                                         :form-data="item"
                                         :edit="true"
-                                        :url="url + '/' + item[`${primaryKey}`]"
+                                        :url="url"
                                     />
                                 </template>
                             </BtnDialog>
@@ -112,6 +128,7 @@
                 </v-card-item>
             </v-card>
         </v-container>
+
     </AdminLayout>
 </template>
 <script setup>
@@ -123,13 +140,74 @@ import DataTable from "@/components/DataTable.vue";
 import create from "./create.vue";
 
 import { router } from "@inertiajs/core";
+import { ref } from "vue";
 
 const props = defineProps({
     items: Object,
     headers: Array,
     filters: Object,
+    specialties: Array,
+    doctors: Array,
 });
 
-const url = "/a/users";
 const primaryKey = "id";
+const url = "/a/final-services";
+
+const formStructure = [
+    {
+        key: "name",
+        label: "Nombre",
+        type: "text",
+        required: true,
+        cols: 12,
+        default: "",
+    },
+    {
+        key: "description",
+        label: "Descripción",
+        type: "textarea",
+        required: true,
+        cols: 12,
+        default: "",
+    },
+    {
+        key: "img_path",
+        label: "Foto",
+        type: "file",
+        required: false,
+        cols: 12,
+        default: null,
+    },
+    {
+        key: "is_active",
+        label: "Estado",
+        type: "switch",
+        required: true,
+        cols: 12,
+        default: true,
+    },
+
+    {
+        key: "specialty_id",
+        label: "Especialidad",
+        type: "combobox",
+        options: props.specialties,
+        itemTitle: "name",
+        itemValue: "id",
+        required: true,
+        cols: 12,
+        default: null,
+    },
+    {
+        key: "worker_id",
+        label: "Medico",
+        type: "combobox",
+        options: props.doctors,
+        itemTitle: "fullname",
+        itemValue: "id",
+        required: true,
+        cols: 12,
+        default: null,
+    },
+];
 </script>

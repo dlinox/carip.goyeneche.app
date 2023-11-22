@@ -22,6 +22,7 @@
                 <v-tab :value="1"> Mision / Vision </v-tab>
                 <v-tab :value="2"> Organigrama </v-tab>
                 <v-tab :value="3"> ¿Quiénes Somos ? </v-tab>
+                <!-- <v-tab :value="4"> Objetivos </v-tab> -->
             </v-tabs>
         </v-card>
         <v-window v-model="tab">
@@ -38,6 +39,7 @@
                                         v-model="form.name"
                                         placeholder="Nombre de la institucion"
                                         hide-details
+                                        :error-messages="form.errors.name"
                                     />
                                 </v-col>
 
@@ -48,6 +50,7 @@
                                     <v-text-field
                                         v-model="form.description"
                                         placeholder="Descripción"
+                                        :error-messages="form.errors.description"
                                     />
                                 </v-col>
 
@@ -58,6 +61,7 @@
                                     <v-text-field
                                         v-model="form.address"
                                         placeholder="Dirección"
+                                        :error-messages="form.errors.address"
                                     />
                                 </v-col>
 
@@ -68,6 +72,8 @@
                                     <v-text-field
                                         v-model="form.phone"
                                         placeholder="Telefono"
+                                        :error-messages="form.errors.phone"
+
                                     />
                                 </v-col>
 
@@ -78,6 +84,7 @@
                                     <v-text-field
                                         v-model="form.email"
                                         placeholder="Correo"
+                                        :error-messages="form.errors.email"
                                     />
                                 </v-col>
                             </v-row>
@@ -96,6 +103,9 @@
                                         Mision
                                     </div>
                                     <v-card>
+                                        <small class="text-red">
+                                            {{ form.errors.mission  }}
+                                        </small>
                                         <quill-editor
                                             contentType="html"
                                             v-model:content="form.mission"
@@ -109,6 +119,9 @@
                                         Vision
                                     </div>
                                     <v-card>
+                                        <small class="text-red">
+                                            {{ form.errors.vision  }}
+                                        </small>
                                         <quill-editor
                                             contentType="html"
                                             v-model:content="form.vision"
@@ -131,6 +144,9 @@
                                         Organigrama
                                     </div>
                                     <v-card variant="tonal">
+                                        <small class="text-red">
+                                            {{ form.errors.organigram  }}
+                                        </small>
                                         <CropCompressImage
                                             :aspect-ratio="16 / 9"
                                             @onCropper="
@@ -178,6 +194,9 @@
                                         ¿Quiénes Somos ?
                                     </div>
                                     <v-card height="300">
+                                        <small class="text-red">
+                                            {{ form.errors.aboutUs  }}
+                                        </small>
                                         <quill-editor
                                             contentType="html"
                                             v-model:content="form.aboutUs"
@@ -190,6 +209,27 @@
                     </v-card>
                 </v-container>
             </v-window-item>
+
+            <!-- <v-window-item :value="4">
+                <v-container>
+                    <v-card>
+                        <v-card-item>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-btn type="button" prepend-icon="mdi-plus" @click="addObjetive">
+
+                                        AGREGAR OBJETIVO
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-card-item>
+
+                        <v-card-item>
+                            as
+                        </v-card-item>
+                    </v-card>
+                </v-container>
+            </v-window-item> -->
         </v-window>
     </AdminLayout>
 </template>
@@ -231,5 +271,11 @@ const submit = async () => {
             console.log("finish");
         },
     });
+};
+
+const addObjetive = () => {
+
+
+    console.log("addObjetive");
 };
 </script>

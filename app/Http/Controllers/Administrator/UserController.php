@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\Resources\Person;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,7 +33,12 @@ class UserController extends Controller
 
         // Obtener resultados paginados
         $items = $query->select(
-            'users.*',
+            'users.id',
+            'users.fullname',
+            'users.person_id',
+            'users.email',
+            'users.role',
+            'users.is_active',
             'persons.document_number as documentNumber',
             'persons.name',
             'persons.phone',
@@ -51,19 +57,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'fatherLastName' => 'required',
-            'motherLastName' => 'required',
-            'documentNumber' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'password' => 'required',
-            'role' => 'required',
-        ]);
-
+        
         DB::beginTransaction();
         try {
             $person = Person::registerNew($request);
@@ -76,20 +72,9 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Elemento creado exitosamente.');
     }
 
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'fatherLastName' => 'required',
-            'motherLastName' => 'required',
-            'documentNumber' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'role' => 'required',
-        ]);
-
         DB::beginTransaction();
-
         try {
             $person = Person::updatePerson($request);
             User::updateUser($request, $person->id);
@@ -99,5 +84,13 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['Error al crear el elemento.', $th->getMessage()]);
         }
         return redirect()->back()->with('success', 'Elemento creado exitosamente.');
+    }
+
+    public function changeState($id)
+    {
+        $user = User::find($id);
+        $user->is_active = !$user->is_active;
+        $user->save();
+        return redirect()->back()->with('success', 'Estado cambiado exitosamente.');
     }
 }

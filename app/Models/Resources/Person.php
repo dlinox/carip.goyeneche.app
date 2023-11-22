@@ -5,7 +5,7 @@ namespace App\Models\Resources;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Model
+class   Person extends Model
 {
     use HasFactory;
 
@@ -49,7 +49,7 @@ class Person extends Model
 
     static public function updatePerson($request)
     {
-        $person =  Person::find($request->person_id);
+        $person =  Person::find($request->personId);
         $person->name = $request->name;
         $person->father_last_name = $request->fatherLastName;
         $person->mother_last_name = $request->motherLastName;

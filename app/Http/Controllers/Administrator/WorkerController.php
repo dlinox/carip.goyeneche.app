@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DoctorRequest;
 use App\Models\OrganizationChart;
 use App\Models\Resources\Person;
 use App\Models\Resources\PersonPhoto;
@@ -33,7 +34,31 @@ class WorkerController extends Controller
         }
 
         // Obtener resultados paginados
-        $items = $query->paginate($perPage)->appends($request->query());
+        $items = $query
+            ->select(
+                'workers.id',
+                'workers.fullname',
+                'workers.description',
+                'workers.is_active',
+
+                'persons.id as personId',
+                'persons.document_number as documentNumber',
+                'persons.name',
+                'persons.phone',
+                'persons.father_last_name as fatherLastName',
+                'persons.mother_last_name as motherLastName',
+
+                'person_photos.id as photoId',
+                'person_photos.path as photo',
+
+                'worker_specialties.id as specialtyId',
+                'worker_specialties.specialty_id as specialty',
+
+            )
+            ->join('persons', 'persons.id', '=', 'workers.person_id')
+            ->join('person_photos', 'person_photos.person_id', '=', 'persons.id')
+            ->join('worker_specialties', 'worker_specialties.worker_id', '=', 'workers.id')
+            ->paginate($perPage)->appends($request->query());
 
         $itemsAuthorities = OrganizationChart::with('worker')->get();
 
@@ -47,30 +72,48 @@ class WorkerController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(DoctorRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'fatherLastName' => 'required',
-            'motherLastName' => 'required',
-            'documentNumber' => 'required',
-            'specialty' => 'required',
-            'description' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
         DB::beginTransaction();
         try {
-            $person = Person::registerNew($request);
-            PersonPhoto::registerNew($request, $person->id);
-            $worker =  Worker::registerNew($request, $person->id);
-            WorkerSpecialty::registerNew($request, $worker->id);
+
+            if ($request->id) {
+                Worker::updateWorker($request, $request->id);
+                Person::updatePerson($request);
+                
+                if ($request->hasFile('photo')) {
+                    //PersonPhoto::updatePhoto($request);
+                    PersonPhoto::updatePhoto($request);
+                }
+                WorkerSpecialty::updateSpecialty($request);
+            } else {
+                $person = Person::registerNew($request);
+                PersonPhoto::registerNew($request, $person->id);
+                $worker =  Worker::registerNew($request, $person->id);
+                WorkerSpecialty::registerNew($request, $worker->id);
+            }
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->withErrors(['Error al crear el elemento.', $th->getMessage()]);
         }
         return redirect()->back()->with('success', 'Elemento creado exitosamente.');
+    }
+
+    public function update(DoctorRequest $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            Worker::updateWorker($request, $id);
+            Person::updatePerson($request);
+            PersonPhoto::updatePhoto($request);
+            WorkerSpecialty::updateSpecialty($request);
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['Error al actualizar el elemento.', $th->getMessage()]);
+        }
+        return redirect()->back()->with('success', 'Elemento actualizado exitosamente.');
     }
 
     public function destroy($id)
@@ -85,6 +128,14 @@ class WorkerController extends Controller
             return redirect()->back()->withErrors(['Error al eliminar el elemento.', $th->getMessage()]);
         }
         return redirect()->back()->with('success', 'Elemento eliminado exitosamente.');
+    }
+
+    public function changeState($id)
+    {
+        $user = Worker::find($id);
+        $user->is_active = !$user->is_active;
+        $user->save();
+        return redirect()->back()->with('success', 'Estado cambiado exitosamente.');
     }
 
     public function authorities(Request $request)

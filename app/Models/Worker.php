@@ -29,6 +29,7 @@ class Worker extends Model
         ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
         ['text' => "Nombre", 'value' => "fullname", 'short' => false, 'order' => 'ASC'],
         ['text' => "Descripción", 'value' => "description", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Foto", 'value' => "photo", 'short' => false, 'order' => 'ASC'],
         ['text' => "Estado", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
     ];
 
@@ -38,6 +39,15 @@ class Worker extends Model
         $user->fullname = $request->name . ' ' . $request->fatherLastName . ' ' . $request->motherLastName;
         $user->description = $request->description;
         $user->person_id = $person;
+        $user->save();
+        return $user;
+    }
+
+    static public function updateWorker($request, $id)
+    {
+        $user = Worker::find($id);
+        $user->fullname = $request->name . ' ' . $request->fatherLastName . ' ' . $request->motherLastName;
+        $user->description = $request->description;
         $user->save();
         return $user;
     }

@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <HeadingPage
-            title="Documento Guía"
+            title="Portafolio de Servicios"
             subtitle="Cartera de Servicio"
             class="bg-white"
         >
@@ -92,8 +92,6 @@
                                 {{ item.is_active ? "Activo" : "Inactivo" }}
                             </v-btn>
                         </template>
-
-                      
                     </DataTable>
                 </v-card-item>
             </v-card>
@@ -157,7 +155,7 @@ const formStructure = [
 ];
 
 const primaryKey = "id";
-const url = "/a/circuit";
+const url = "/a/servicePortfolio";
 
 const submit = async () => {
     form.post("/a/institutional", {

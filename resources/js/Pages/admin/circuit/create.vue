@@ -6,106 +6,62 @@
         @onSumbit="submit"
     >
         <template #field.guideFile>
-            <v-list-item class="py-0">
-                <v-file-input
-                    @change="handleFileChangeDoc"
-                    v-model="form.guideFile"
-                    show-size
-                    single
-                    :clearable="false"
-                    label="Seleccione el documento"
-                    accept="application/pdf"
-                    class="mb-1 mt-2"
-                >
-                    <template v-if="form.guideFile" #append>
-                        <v-btn
-                            variant="tonal"
-                            rounded="lg"
-                            icon="mdi-close"
-                            size="small"
-                            @click="cancelUploadGuide"
-                        />
-                    </template>
-                </v-file-input>
-            </v-list-item>
-
             <v-card variant="tonal">
-                <v-list-item
-                    v-for="(file, fileIndex) in fileListDocs"
-                    :key="file.name"
-                >
-                    <template v-slot:prepend>
-                        <a :href="file.url" target="_blank" class="me-3">
-                            <v-icon color="red" icon="mdi-file-pdf-box">
-                            </v-icon>
-                        </a>
-                    </template>
+                <CropCompressImage
+                    :aspect-ratio="16 / 9"
+                    @onCropper="
+                        (previewImg1 = $event.blob), (form.guideFile = $event.file)
+                    "
+                />
 
-                    <v-list-item-title>
-                        <small> {{ file.name }} </small>
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        {{ file.size }} bytes
-                    </v-list-item-subtitle>
+                <v-img
+                    v-if="previewImg1"
+                    class="mx-auto"
+                    :width="300"
+                    aspect-ratio="16/9"
+                    cover
+                    :src="previewImg1"
+                ></v-img>
 
-                    <v-list-item-subtitle class="text-red">
-                        <!-- <small>
-                            {{ form.errors.docu_plantilla }}
-                        </small> -->
-                    </v-list-item-subtitle>
-                </v-list-item>
+                <v-img
+                    v-if="form.guideFilePath && !previewImg1"
+                    class="mx-auto"
+                    :width="300"
+                    aspect-ratio="16/9"
+                    cover
+                    :src="form.guideFilePath"
+                ></v-img>
             </v-card>
         </template>
 
+
+
         <template #field.resolutionFile>
-            <v-list-item class="py-0">
-                <v-file-input
-                    @change="handleFileChangeResolution"
-                    v-model="form.resolutionFile"
-                    show-size
-                    single
-                    :clearable="false"
-                    label="Seleccione el documento"
-                    accept="application/pdf"
-                    class="mb-1 mt-2"
-                >
-                    <template v-if="form.resolutionFile" #append>
-                        <v-btn
-                            variant="tonal"
-                            rounded="lg"
-                            icon="mdi-close"
-                            size="small"
-                            @click="cancelUploadResolution"
-                        />
-                    </template>
-                </v-file-input>
-            </v-list-item>
-
             <v-card variant="tonal">
-                <v-list-item
-                    v-for="(file, fileIndex) in fileListResolution"
-                    :key="file.name"
-                >
-                    <template v-slot:prepend>
-                        <a :href="file.url" target="_blank" class="me-3">
-                            <v-icon color="red" icon="mdi-file-pdf-box">
-                            </v-icon>
-                        </a>
-                    </template>
+                <CropCompressImage
+                    :aspect-ratio="16 / 9"
+                    @onCropper="
+                        (previewImg2 = $event.blob), (form.resolutionFile = $event.file)
+                    "
+                />
 
-                    <v-list-item-title>
-                        <small> {{ file.name }} </small>
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        {{ file.size }} bytes
-                    </v-list-item-subtitle>
+                <v-img
+                    v-if="previewImg2"
+                    class="mx-auto"
+                    :width="300"
+                    aspect-ratio="16/9"
+                    cover
+                    :src="previewImg2"
+                ></v-img>
 
-                    <v-list-item-subtitle class="text-red">
-                        <!-- <small>
-                            {{ form.errors.docu_plantilla }}
-                        </small> -->
-                    </v-list-item-subtitle>
-                </v-list-item>
+                <v-img
+                    v-if="form.resolutionFilePath && !previewImg2"
+                    class="mx-auto"
+                    :width="300"
+                    aspect-ratio="16/9"
+                    cover
+                    :src="form.resolutionFilePath"
+                ></v-img>
             </v-card>
         </template>
     </SimpleForm>
@@ -116,6 +72,7 @@ import { ref } from "vue";
 import SimpleForm from "@/components/SimpleForm.vue";
 import { useForm } from "@inertiajs/vue3";
 import { useObjectUrl } from "@vueuse/core";
+import CropCompressImage from "@/components/CropCompressImage.vue";
 const emit = defineEmits(["onCancel", "onSubmit"]);
 
 const props = defineProps({
@@ -137,13 +94,19 @@ const props = defineProps({
     url: String,
 });
 
+
+const previewImg1 = ref(null);
+const previewImg2 = ref(null);
+
+
+
 const form = useForm({ ...props.formData });
 
 const submit = async () => {
     form.transform((data) => ({
         ...data,
-        guideFile: data.guideFile ? data.guideFile[0] : null,
-        resolutionFile: data.resolutionFile ? data.resolutionFile[0] : null,
+        // guideFile: data.guideFile ? data.guideFile[0] : null,
+        // resolutionFile: data.resolutionFile ? data.resolutionFile[0] : null,
     })).post(props.url, option);
 };
 

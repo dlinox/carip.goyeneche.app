@@ -1,6 +1,6 @@
 <template>
     <AdminLayout>
-        <HeadingPage title="Usuarios" subtitle="Gestion de usuarios">
+        <HeadingPage title="Objetivos" subtitle="Gestion institucional">
             <template #actions>
                 <BtnDialog title="Nuevo" width="700px">
                     <template v-slot:activator="{ dialog }">
@@ -44,7 +44,7 @@
                                 variant="tonal"
                             >
                                 <DialogConfirm
-                                    text="¿Cambiar estado del usuario?"
+                                    text="¿Cambiar estado?"
                                     @onConfirm="
                                         () =>
                                             router.patch(
@@ -130,6 +130,6 @@ const props = defineProps({
     filters: Object,
 });
 
-const url = "/a/users";
+const url = "/a/objetives";
 const primaryKey = "id";
 </script>

@@ -31,4 +31,11 @@ class WorkerSpecialty extends Model
         $workerSpecialty->specialty_id = $request->specialty;
         $workerSpecialty->save();
     }
+
+    static public function updateSpecialty($request)
+    {
+        $workerSpecialty = WorkerSpecialty::find($request->specialtyId);
+        $workerSpecialty->specialty_id = $request->specialty;
+        $workerSpecialty->save();
+    }   
 }

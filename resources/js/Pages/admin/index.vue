@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <HeadingPage title="Dashboard" />
-        <v-container> dashboard </v-container>
+        <v-container> ... </v-container>
     </AdminLayout>
 </template>
 <script setup>

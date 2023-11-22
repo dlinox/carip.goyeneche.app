@@ -54,4 +54,17 @@ class PersonPhoto extends Model
         $photo->save();
         return $photo;
     }
+
+    static public function updatePhoto($request)
+    {
+        $photo = PersonPhoto::find($request->photoId);
+        $photo->path = $request->file('photo')->store('photos', 'public');
+        $photo->filename = $request->file('photo')->getClientOriginalName();
+        $photo->mime_type = $request->file('photo')->getMimeType();
+        $photo->extension = $request->file('photo')->getClientOriginalExtension();
+        $photo->size = $request->file('photo')->getSize();
+        $photo->is_avatar = 1;
+        $photo->save();
+        return $photo;
+    }
 }

@@ -1,5 +1,25 @@
 <template>
-    <v-container fluid>
+    <AdminLayout>
+        <HeadingPage title="Oficinas" subtitle="Gestion de general">
+            <template #actions>
+                <BtnDialog title="Nuevo" width="700px">
+                    <template v-slot:activator="{ dialog }">
+                        <v-btn
+                            @click="dialog"
+                            prepend-icon="mdi-plus"
+                            variant="flat"
+                        >
+                            Nuevo
+                        </v-btn>
+                    </template>
+                    <template v-slot:content="{ dialog }">
+                        <create :form-structure="formStructure" @on-cancel="dialog" :url="url" />
+                    </template>
+                </BtnDialog>
+            </template>
+        </HeadingPage>
+
+        <v-container fluid>
         <v-card>
             <v-card-item>
                 <DataTable
@@ -11,24 +31,7 @@
                     <template v-slot:header="{ filter }">
                         <v-row class="py-3" justify="end">
                             <v-col cols="6">
-                                <BtnDialog title="Nuevo" width="700px">
-                                    <template v-slot:activator="{ dialog }">
-                                        <v-btn
-                                            @click="dialog"
-                                            prepend-icon="mdi-plus"
-                                            variant="flat"
-                                        >
-                                            Doctor
-                                        </v-btn>
-                                    </template>
-                                    <template v-slot:content="{ dialog }">
-                                        <create
-                                            @on-cancel="dialog"
-                                            :formStructure="formStructureDoctor"
-                                            :url="url"
-                                        />
-                                    </template>
-                                </BtnDialog>
+                       
                             </v-col>
                             <v-col cols="6">
                                 <v-text-field
@@ -89,7 +92,7 @@
                             <template v-slot:content="{ dialog }">
                                 <create
                                     @on-cancel="dialog"
-                                    :formStructure="formStructureDoctor"
+                                    :formStructure="formStructure"
                                     :form-data="item"
                                     :edit="true"
                                     :url="url"
@@ -121,10 +124,13 @@
                 </DataTable>
             </v-card-item>
         </v-card>
-        
     </v-container>
+    </AdminLayout>
+  
 </template>
 <script setup>
+import AdminLayout from "@/layouts/AdminLayout.vue";
+import HeadingPage from "@/components/HeadingPage.vue";
 import BtnDialog from "@/components/BtnDialog.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
 import DataTable from "@/components/DataTable.vue";
@@ -140,89 +146,15 @@ const props = defineProps({
 });
 
 const primaryKey = "id";
-const url = "/a/workers";
+const url = "/a/offices";
 
-const specialties = [
-    {
-        id: 1,
-        name: "Cardiología",
-        description: "Especialización en el corazón y los vasos sanguíneos.",
-    },
-    {
-        id: 2,
-        name: "Ortopedia",
-        description:
-            "Tratamiento de deformidades o discapacidades funcionales del sistema esquelético.",
-    },
-    {
-        id: 3,
-        name: "Dermatología",
-        description: "Enfermedades de la piel, cabello y uñas.",
-    },
-    {
-        id: 4,
-        name: "Neurología",
-        description: "Estudio del sistema nervioso.",
-    },
-    {
-        id: 5,
-        name: "Ginecología",
-        description: "Salud reproductiva femenina.",
-    },
-];
 
-const formStructureDoctor = [
-    {
-        key: "documentNumber",
-        label: "DNI",
-        type: "text",
-        required: true,
-        cols: 12,
-        colMd: 6,
-        default: "",
-    },
-    {
-        key: "cmp",
-        label: "Nro. de Colegiatura",
-        type: "text",
-        required: true,
-        cols: 12,
-        colMd: 6,
-        default: "",
-    },
+const formStructure = [
+
     {
         key: "name",
         label: "Nombre",
         type: "text",
-        required: true,
-        cols: 12,
-        default: "",
-    },
-    {
-        key: "fatherLastName",
-        label: "Apellido Paterno",
-        type: "text",
-        required: true,
-        cols: 12,
-        colMd: 6,
-        default: "",
-    },
-    {
-        key: "motherLastName",
-        label: "Apellido Materno",
-        type: "text",
-        required: true,
-        cols: 12,
-        colMd: 6,
-        default: "",
-    },
-    {
-        key: "specialty",
-        label: "Especialidad",
-        type: "combobox",
-        itemTitle: "name",
-        itemValue: "id",
-        options: specialties,
         required: true,
         cols: 12,
         default: "",
@@ -236,7 +168,7 @@ const formStructureDoctor = [
         default: "",
     },
     {
-        key: "photo",
+        key: "img_path",
         label: "Foto",
         type: "file",
         required: true,
@@ -245,3 +177,6 @@ const formStructureDoctor = [
     },
 ];
 </script>
+
+
+
