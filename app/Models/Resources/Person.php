@@ -36,7 +36,6 @@ class   Person extends Model
 
     static public function registerNew($request)
     {
-
         $person =  new  Person();
         $person->name = $request->name;
         $person->father_last_name = $request->fatherLastName;
@@ -49,7 +48,7 @@ class   Person extends Model
 
     static public function updatePerson($request)
     {
-        $person =  Person::find($request->personId);
+        $person =  Person::find($request->person_id);
         $person->name = $request->name;
         $person->father_last_name = $request->fatherLastName;
         $person->mother_last_name = $request->motherLastName;
@@ -58,7 +57,6 @@ class   Person extends Model
         $person->save();
         return $person;
     }
-
 
     public function registerPhoto($request, $person)
     {

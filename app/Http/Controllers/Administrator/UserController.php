@@ -85,12 +85,18 @@ class UserController extends Controller
         }
         return redirect()->back()->with('success', 'Elemento creado exitosamente.');
     }
-
+    //parangaricutirimicuaro
     public function changeState($id)
     {
         $user = User::find($id);
         $user->is_active = !$user->is_active;
         $user->save();
         return redirect()->back()->with('success', 'Estado cambiado exitosamente.');
+    }
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('success', 'Elemento eliminado exitosamente.');
     }
 }

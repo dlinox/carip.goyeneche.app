@@ -22,7 +22,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $userId = $this->id ?  $this->id : null;
-        
+
         return [
             'name' => 'required',
             'fatherLastName' => 'required',
