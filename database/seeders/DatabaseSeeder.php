@@ -48,21 +48,17 @@ class DatabaseSeeder extends Seeder
             DB::table('specialties')->insert($especialidad);
         }
 
-        Person::create([
+
+
+        User::create([
             'name' => 'John',
             'father_last_name' => 'Doe',
             'mother_last_name' =>  'Doe',
-            'document_number' => '00000001',
-            'phone' => '951208106',
-            'gender' => 'M',
-        ]);
-
-        User::create([
-            'fullname' => 'John Doe Doe',
+            'document_type' => 'DNI',
+            'document_number' => '12345678',
+            'phone_number' => '123456789',
             'email' => 'admin@goyeneche.com',
-            'password' => 'password',
-
-            'person_id' => 1,
+            'password' => 'password',   
         ]);
 
         $positions = [

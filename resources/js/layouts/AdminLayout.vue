@@ -20,10 +20,10 @@
 
         <v-navigation-drawer floating v-model="drawer" class="bg-primary">
             <v-toolbar color="primary">
-                <v-list-item :title="user?.fullname" :subtitle="user?.role">
+                <v-list-item :title="user?.name" :subtitle="user?.role">
                     <template #prepend>
                         <v-avatar color="white">
-                            {{ user?.fullname[0] }}
+                            {{ user?.name[0] }}
                         </v-avatar>
                     </template>
                 </v-list-item>

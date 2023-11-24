@@ -28,24 +28,21 @@ class UserController extends Controller
         // Búsqueda por nombre de área
         if ($request->has('search')) {
             $searchTerm = $request->search;
-            $query->where('fullname', 'like', '%' . $searchTerm . '%');
+            $query->where('name', 'like', '%' . $searchTerm . '%');
         }
 
         // Obtener resultados paginados
         $items = $query->select(
             'users.id',
-            'users.fullname',
-            'users.person_id',
+            'users.name',
             'users.email',
             'users.role',
-            'users.is_active',
-            'persons.document_number as documentNumber',
-            'persons.name',
-            'persons.phone',
-            'persons.father_last_name as fatherLastName',
-            'persons.mother_last_name as motherLastName'
+            'users.is_active as isActive' ,
+            'users.phone_number as phoneNumber',
+            'users.document_number as documentNumber',
+            'users.father_last_name as fatherLastName',
+            'users.mother_last_name as motherLastName'
         )
-            ->join('persons', 'persons.id', '=', 'users.person_id')
             ->paginate($perPage)->appends($request->query());
 
         return Inertia::render('admin/users/index', [
@@ -76,15 +73,14 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            $person = Person::updatePerson($request);
-            User::updateUser($request, $person->id);
+            User::updateUser($request, $id);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->withErrors(['Error al crear el elemento.', $th->getMessage()]);
         }
         return redirect()->back()->with('success', 'Elemento creado exitosamente.');
-    }
+        }
     //parangaricutirimicuaro
     public function changeState($id)
     {

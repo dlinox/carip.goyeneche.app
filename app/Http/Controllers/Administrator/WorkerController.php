@@ -82,7 +82,6 @@ class WorkerController extends Controller
                 Person::updatePerson($request);
                 
                 if ($request->hasFile('photo')) {
-                    //PersonPhoto::updatePhoto($request);
                     PersonPhoto::updatePhoto($request);
                 }
                 WorkerSpecialty::updateSpecialty($request);

@@ -22,7 +22,7 @@
                 <v-tab :value="1"> Mision / Vision </v-tab>
                 <v-tab :value="2"> Organigrama </v-tab>
                 <v-tab :value="3"> ¿Quiénes Somos ? </v-tab>
-                <!-- <v-tab :value="4"> Objetivos </v-tab> -->
+                <v-tab :value="4"> Objetivos </v-tab>
             </v-tabs>
         </v-card>
         <v-window v-model="tab">
@@ -50,7 +50,9 @@
                                     <v-text-field
                                         v-model="form.description"
                                         placeholder="Descripción"
-                                        :error-messages="form.errors.description"
+                                        :error-messages="
+                                            form.errors.description
+                                        "
                                     />
                                 </v-col>
 
@@ -73,7 +75,6 @@
                                         v-model="form.phone"
                                         placeholder="Telefono"
                                         :error-messages="form.errors.phone"
-
                                     />
                                 </v-col>
 
@@ -104,7 +105,7 @@
                                     </div>
                                     <v-card>
                                         <small class="text-red">
-                                            {{ form.errors.mission  }}
+                                            {{ form.errors.mission }}
                                         </small>
                                         <quill-editor
                                             contentType="html"
@@ -120,7 +121,7 @@
                                     </div>
                                     <v-card>
                                         <small class="text-red">
-                                            {{ form.errors.vision  }}
+                                            {{ form.errors.vision }}
                                         </small>
                                         <quill-editor
                                             contentType="html"
@@ -145,7 +146,7 @@
                                     </div>
                                     <v-card variant="tonal">
                                         <small class="text-red">
-                                            {{ form.errors.organigram  }}
+                                            {{ form.errors.organigram }}
                                         </small>
                                         <CropCompressImage
                                             :aspect-ratio="16 / 9"
@@ -195,7 +196,7 @@
                                     </div>
                                     <v-card height="300">
                                         <small class="text-red">
-                                            {{ form.errors.aboutUs  }}
+                                            {{ form.errors.aboutUs }}
                                         </small>
                                         <quill-editor
                                             contentType="html"
@@ -210,26 +211,37 @@
                 </v-container>
             </v-window-item>
 
-            <!-- <v-window-item :value="4">
+            <v-window-item :value="4">
                 <v-container>
                     <v-card>
                         <v-card-item>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-btn type="button" prepend-icon="mdi-plus" @click="addObjetive">
-
-                                        AGREGAR OBJETIVO
-                                    </v-btn>
+                                    <BtnDialog title="Nuevo" width="700px">
+                                        <template v-slot:activator="{ dialog }">
+                                            <v-btn
+                                                @click="dialog"
+                                                prepend-icon="mdi-plus"
+                                                variant="flat"
+                                            >
+                                                AGREGAR OBJETIVO
+                                            </v-btn>
+                                        </template>
+                                        <template v-slot:content="{ dialog }">
+                                            <createObjetive
+                                                @on-cancel="dialog"
+                                                :url="url"
+                                            />
+                                        </template>
+                                    </BtnDialog>
                                 </v-col>
                             </v-row>
                         </v-card-item>
 
-                        <v-card-item>
-                            as
-                        </v-card-item>
+                        <v-card-item> as </v-card-item>
                     </v-card>
                 </v-container>
-            </v-window-item> -->
+            </v-window-item>
         </v-window>
     </AdminLayout>
 </template>
@@ -237,12 +249,19 @@
 import { ref } from "vue";
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import HeadingPage from "@/components/HeadingPage.vue";
-import CropCompressImage from "../../../components/CropCompressImage.vue";
+import CropCompressImage from "@/components/CropCompressImage.vue";
 import { useForm } from "@inertiajs/vue3";
-
+import BtnDialog from "@/components/BtnDialog.vue";
+import createObjetive from './createObjetive.vue';
 const props = defineProps({
     institutional: Object,
 });
+
+
+const url = "/a/objetives";
+const primaryKey = "id";
+
+const dialogObjetive = ref(false);
 
 const tab = ref(0);
 const previewImg = ref(null);
@@ -274,8 +293,7 @@ const submit = async () => {
 };
 
 const addObjetive = () => {
-
-
+    dialogObjetive.value = true;
     console.log("addObjetive");
 };
 </script>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('guide_file')->nullable();
             $table->string('resolution_name')->nullable();
             $table->string('resolution_file')->nullable();
+            $table->date('date')->nullable(); //usar   --- input libre
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

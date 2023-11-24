@@ -27,9 +27,9 @@ class UserRequest extends FormRequest
             'name' => 'required',
             'fatherLastName' => 'required',
             'motherLastName' => 'required',
-            'documentNumber' => 'required|unique:persons,document_number,' . $userId,
+            'documentNumber' => 'required|unique:users,document_number,' . $userId,
             'email' => 'required|email|unique:users,email,' . $userId,
-            'phone' => 'required',
+            'phoneNumber' => 'required',
             'password' => $userId ? '' : 'required',
             'role' => 'required',
         ];
@@ -46,7 +46,7 @@ class UserRequest extends FormRequest
             'email.required' => 'El correo electrónico es requerido',
             'email.email' => 'El correo electrónico no es válido',
             'email.unique' => 'El correo electrónico ya existe',
-            'phone.required' => 'El teléfono es requerido',
+            'phoneNumber.required' => 'El teléfono es requerido',
             'password.required' => 'La contraseña es requerida',
             'role.required' => 'El rol es requerido',
         ];

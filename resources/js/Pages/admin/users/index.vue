@@ -38,9 +38,9 @@
                             </v-row>
                         </template>
 
-                        <template v-slot:item.is_active="{ item }">
+                        <template v-slot:item.isActive="{ item }">
                             <v-btn
-                                :color="item.is_active ? 'blue' : 'red'"
+                                :color="item.isActive ? 'blue' : 'red'"
                                 variant="tonal"
                             >
                                 <DialogConfirm
@@ -55,7 +55,7 @@
                                             )
                                     "
                                 />
-                                {{ item.is_active ? "Activo" : "Inactivo" }}
+                                {{ item.isActive ? "Activo" : "Inactivo" }}
                             </v-btn>
                         </template>
 

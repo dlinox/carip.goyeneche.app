@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Models\InstitutionalObjetive;
 use App\Models\Objetive;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -61,7 +62,7 @@ class ObjetiveController extends Controller
             ]
         );
 
-        Objetive::create($request->all());
+        InstitutionalObjetive::create($request->all());
 
         return redirect()->back()
             ->with('message', 'Objetivo creado exitosamente.');

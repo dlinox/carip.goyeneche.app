@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('person_id');
-            $table->string('fullname');
+            $table->string('name');
+            $table->string('father_last_name')->nullable();
+            $table->string('mother_last_name')->nullable();
+            $table->enum('document_type', ['DNI'])->default('DNI');
+            $table->char('document_number', 8);
+            $table->char('phone_number', 9)->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('role', ['Super Admin', 'Administrador', 'Operador'])->default('Administrador');
@@ -22,11 +26,6 @@ return new class extends Migration
             $table->boolean('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();
-
-            // Index
-            $table->index('person_id', 'idx_person_id');
-            // Foreign key
-            $table->foreign('person_id')->references('id')->on('persons')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -31,11 +31,10 @@ const props = defineProps({
             fatherLastName: "",
             motherLastName: "",
             documentNumber: "",
+            phoneNumber: "",
             email: "",
-            phone: "",
             password: "",
             role: "",
-            phone: "",
         },
     },
     edit: {
@@ -110,7 +109,7 @@ const formStructure = [
     },
 
     {
-        key: "phone",
+        key: "phoneNumber",
         label: "Teléfono",
         type: "text",
         required: true,
@@ -171,7 +170,7 @@ const formStructureEdit = [
     },
 
     {
-        key: "phone",
+        key: "phoneNumber",
         label: "Teléfono",
         type: "text",
         required: true,

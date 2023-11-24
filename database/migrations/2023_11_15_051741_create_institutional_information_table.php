@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('address', 180); //otra tabla
             $table->char('phone', 9); //otra tabla
             $table->string('email', 120); //otra tabla
+            $table->string('email_MESA DE PARTES', 120); //otra tabla
             $table->text('about_us')->nullable();
             $table->text('mission');
             $table->text('vision');

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('supporting_services', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('img_path')->nullable();
-            $table->string('description')->nullable();
+            $table->string('description')->nullable(); //usar
+            $table->string('img_path')->nullable(); //usar
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

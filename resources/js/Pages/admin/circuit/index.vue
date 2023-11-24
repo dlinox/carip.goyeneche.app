@@ -123,9 +123,11 @@ const form = useForm({
 
 const formStructure = [
     {
+
         key: "guideName",
-        label: "Titulo del documento guia",
+        label: "Circuito de atencion de : ",
         type: "text",
+        //select de servicios de apoyo
         required: true,
         cols: 12,
         default: "",
@@ -139,10 +141,11 @@ const formStructure = [
         default: null,
     },
     {
+        //OPCIONAL
         key: "resolutionName",
-        label: "Titulo Resolucion",
+        label: "Circuito de atencion complementario ",
         type: "text",
-        required: true,
+        required: false,
         cols: 12,
         default: null,
     },
