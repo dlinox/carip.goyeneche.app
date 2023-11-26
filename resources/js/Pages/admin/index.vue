@@ -2,11 +2,11 @@
     <AdminLayout>
         <HeadingPage title="Dashboard" />
         <v-container>
-            <pre>
+            <!-- <pre>
 
                 {{ menu }}    
                 </pre
-            >
+            > -->
         </v-container>
     </AdminLayout>
 </template>
