@@ -153,7 +153,7 @@ const formStructure = [
         key: "resolutionFile",
         label: "Resolucion",
         type: "text",
-        required: true,
+        required: false,
         cols: 12,
         default: null,
     },
