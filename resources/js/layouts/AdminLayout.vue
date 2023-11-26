@@ -29,23 +29,7 @@
                 </v-list-item>
             </v-toolbar>
 
-            <v-list nav theme="dark">
-                <v-list-subheader>MENU</v-list-subheader>
-                <v-list-item
-                    v-for="item in items"
-                    :key="item.title"
-                    link
-                    @click="item.action"
-                >
-                    <template v-slot:prepend>
-                        <v-icon>{{ item.icon }}</v-icon>
-                    </template>
-
-                    <v-list-item-title>
-                        {{ item.title }}
-                    </v-list-item-title>
-                </v-list-item>
-            </v-list>
+            <MenuApp  />
         </v-navigation-drawer>
 
         <v-main>
@@ -100,6 +84,7 @@
 import { ref, onMounted, computed, watch } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { useDisplay } from "vuetify";
+import MenuApp from "../components/MenuApp.vue";
 
 const { mobile } = useDisplay();
 const drawer = ref(false);

@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Administrator\SpecialtyController;
 use App\Http\Controllers\Administrator\AdministratorController;
 use App\Http\Controllers\Administrator\CircuitController;
 use App\Http\Controllers\Administrator\FinalServiceController;
 use App\Http\Controllers\Administrator\InstitutionalController;
+use App\Http\Controllers\Administrator\IntermediateServiceController;
 use App\Http\Controllers\Administrator\ObjetiveController;
 use App\Http\Controllers\Administrator\OfficeController;
 use App\Http\Controllers\Administrator\ServicePortfolioController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\Administrator\SupportingServicesController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\Administrator\WorkerController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Models\IntermediateService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -64,10 +67,36 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     Route::resource('offices', OfficeController::class);
     Route::patch('offices/{id}/change-state',  [OfficeController::class, 'changeState']);
 
+    Route::resource('intermediate-services',  IntermediateServiceController::class);
+
+
     Route::resource('final-services', FinalServiceController::class);
     Route::patch('final-services/{id}/change-state',  [FinalServiceController::class, 'changeState']);
 
     Route::resource('objetives', ObjetiveController::class);
     Route::patch('objetives/{id}/change-state',  [ObjetiveController::class, 'changeState']);
 
+    Route::resource('specialties', SpecialtyController::class);
+
+    Route::get('announcements',  function () {
+        return Inertia::render('admin/announcement/index');
+    });
+
+    //Purchase and service
+    Route::get('purchase-and-service',  function () {
+        return Inertia::render('admin/purchaseAndService/index');
+    });
+
+    //news
+    Route::get('news',  function () {
+        return Inertia::render('admin/news/index');
+    });
+
+    //events and campaigns
+    Route::get('events-and-campaigns',  function () {
+        return Inertia::render('admin/eventsAndCampaigns/index');
+    });
+    
+
+    
 });

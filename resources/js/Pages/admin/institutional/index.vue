@@ -8,6 +8,7 @@
             >
                 <template #actions>
                     <v-btn
+                    v-if="tab !== 4"
                         prepend-icon="mdi-check"
                         variant="flat"
                         @click="submit"
@@ -238,7 +239,7 @@
                             </v-row>
                         </v-card-item>
 
-                        <v-card-item> as </v-card-item>
+                        <v-card-item>  </v-card-item>
                     </v-card>
                 </v-container>
             </v-window-item>
