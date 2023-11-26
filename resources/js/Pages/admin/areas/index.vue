@@ -1,9 +1,6 @@
 <template>
     <AdminLayout>
-        <HeadingPage
-            title="Servicios intermedios"
-            subtitle="Gestion de servicios"
-        >
+        <HeadingPage title="Areas" subtitle="Configuración">
             <template #actions>
                 <BtnDialog title="Nuevo" width="700px">
                     <template v-slot:activator="{ dialog }">
@@ -99,7 +96,7 @@
                                         :formStructure="formStructure"
                                         :form-data="item"
                                         :edit="true"
-                                        :url="url"
+                                        :url="url + '/' + item[`${primaryKey}`]"
                                     />
                                 </template>
                             </BtnDialog>
@@ -147,11 +144,10 @@ const props = defineProps({
     items: Object,
     headers: Array,
     filters: Object,
-    supportingServices: Array,
 });
 
 const primaryKey = "id";
-const url = "/a/intermediate-services";
+const url = "/a/areas";
 
 const formStructure = [
     {
@@ -162,42 +158,5 @@ const formStructure = [
         cols: 12,
         default: "",
     },
-    {
-        key: "description",
-        label: "Descripción",
-        type: "textarea",
-        required: true,
-        cols: 12,
-        default: "",
-    },
-    {
-        key: "img_path",
-        label: "Foto",
-        type: "file",
-        required: false,
-        cols: 12,
-        default: null,
-    },
-    {
-        key: "is_active",
-        label: "Estado",
-        type: "switch",
-        required: true,
-        cols: 12,
-        default: true,
-    },
-
-    {
-        key: "supporting_service_id",
-        label: "Servicio de apoyo",
-        type: "combobox",
-        options: props.supportingServices,
-        itemTitle: "name",
-        itemValue: "id",
-        required: true,
-        cols: 12,
-        default: null,
-    },
-
 ];
 </script>

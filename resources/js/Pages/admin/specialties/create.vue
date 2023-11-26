@@ -62,13 +62,16 @@ const props = defineProps({
     url: String,
 });
 
-const previewImg = ref(null);
 
 const form = useForm({ ...props.formData, img_path: null });
 
 const submit = async () => {
 
-    // form.photo = previewImg.value ? form.photo : null;
+    if (props.edit) {
+        form.put(props.url, option);
+        return;
+    }
+
     
     form.post(props.url, option);
 };

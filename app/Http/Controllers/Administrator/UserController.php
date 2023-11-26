@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Area;
 use App\Models\Resources\Person;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ class UserController extends Controller
             $query->where('name', 'like', '%' . $searchTerm . '%');
         }
 
+        $areas = Area::all();
         // Obtener resultados paginados
         $items = $query->select(
             'users.id',
@@ -41,7 +43,8 @@ class UserController extends Controller
             'users.phone_number as phoneNumber',
             'users.document_number as documentNumber',
             'users.father_last_name as fatherLastName',
-            'users.mother_last_name as motherLastName'
+            'users.mother_last_name as motherLastName',
+            'users.area_id as areaId',
         )
             ->paginate($perPage)->appends($request->query());
 
@@ -51,6 +54,7 @@ class UserController extends Controller
             'filters' => [
                 'search' => $request->search,
             ],
+            'areas' => $areas,
         ]);
     }
 

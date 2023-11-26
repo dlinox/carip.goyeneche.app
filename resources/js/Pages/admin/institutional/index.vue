@@ -8,7 +8,7 @@
             >
                 <template #actions>
                     <v-btn
-                    v-if="tab !== 4"
+                        v-if="tab !== 4"
                         prepend-icon="mdi-check"
                         variant="flat"
                         @click="submit"
@@ -239,7 +239,74 @@
                             </v-row>
                         </v-card-item>
 
-                        <v-card-item>  </v-card-item>
+                        <v-card-item>
+                            <v-list-item
+                                v-for="item in objetives"
+                                :key="item.id"
+                                :title="item.name"
+                            >
+                                <template v-slot:prepend>
+                                    <v-avatar color="grey-lighten-1">
+                                        <v-icon color="white"
+                                            >mdi-folder</v-icon
+                                        >
+                                    </v-avatar>
+                                </template>
+
+                                <template v-slot:append>
+                                    <BtnDialog title="Nuevo" width="700px">
+                                        <template v-slot:activator="{ dialog }">
+                                            <v-btn
+                                                @click="dialog"
+                                                icon="mdi-pencil"
+                                                variant="tonal"
+                                                icon-size="x-small"
+                                                density="comfortable"
+                                                color="blue"
+                                            >
+                                            </v-btn>
+                                        </template>
+                                        <template v-slot:content="{ dialog }">
+                                            <createObjetive
+                                                @on-cancel="dialog"
+                                                :edit="true"
+                                                :form-data="item"
+                                                :url="
+                                                    url +
+                                                    '/' +
+                                                    item[`${primaryKey}`]
+                                                "
+                                            />
+                                        </template>
+                                    </BtnDialog>
+
+                                    <v-btn
+                                        icon
+                                        variant="outlined"
+                                        density="comfortable"
+                                        class="ml-1"
+                                        color="red"
+                                    >
+                                        <DialogConfirm
+                                            @onConfirm="
+                                                () =>
+                                                    router.delete(
+                                                        url +
+                                                            '/' +
+                                                            item[
+                                                                `${primaryKey}`
+                                                            ]
+                                                    )
+                                            "
+                                        />
+                                        <v-icon
+                                            size="x-small"
+                                            icon="mdi-delete-empty"
+                                        ></v-icon>
+                                    </v-btn>
+                                </template>
+                            </v-list-item>
+                        </v-card-item>
                     </v-card>
                 </v-container>
             </v-window-item>
@@ -251,13 +318,15 @@ import { ref } from "vue";
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import HeadingPage from "@/components/HeadingPage.vue";
 import CropCompressImage from "@/components/CropCompressImage.vue";
-import { useForm } from "@inertiajs/vue3";
-import BtnDialog from "@/components/BtnDialog.vue";
-import createObjetive from './createObjetive.vue';
+import { router, useForm } from "@inertiajs/vue3";
+import BtnDialog from "@/components/BtnDialog.vue"
+import DialogConfirm from "@/components/DialogConfirm.vue"
+
+import createObjetive from "./createObjetive.vue";
 const props = defineProps({
     institutional: Object,
+    objetives: Array,
 });
-
 
 const url = "/a/objetives";
 const primaryKey = "id";

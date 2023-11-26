@@ -24,6 +24,8 @@ return new class extends Migration
             $table->enum('role', ['Super Admin', 'Administrador', 'Operador'])->default('Administrador');
             $table->string('password');
             $table->boolean('is_active')->default(1);
+            $table->unsignedBigInteger('area_id')->nullable();
+            $table->foreign('area_id')->references('id')->on('areas')->onUpdate('cascade')->onDelete('restrict');
             $table->rememberToken();
             $table->timestamps();
         });

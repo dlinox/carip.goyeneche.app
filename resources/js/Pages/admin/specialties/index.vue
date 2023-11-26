@@ -96,7 +96,7 @@
                                         :formStructure="formStructure"
                                         :form-data="item"
                                         :edit="true"
-                                        :url="url"
+                                        :url="url + '/' + item[`${primaryKey}`]"	
                                     />
                                 </template>
                             </BtnDialog>

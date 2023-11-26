@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Administrator\SpecialtyController;
 use App\Http\Controllers\Administrator\AdministratorController;
+use App\Http\Controllers\Administrator\AreaController;
 use App\Http\Controllers\Administrator\CircuitController;
 use App\Http\Controllers\Administrator\FinalServiceController;
 use App\Http\Controllers\Administrator\InstitutionalController;
@@ -68,6 +69,7 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     Route::patch('offices/{id}/change-state',  [OfficeController::class, 'changeState']);
 
     Route::resource('intermediate-services',  IntermediateServiceController::class);
+    Route::patch('intermediate-services/{id}/change-state',  [IntermediateServiceController::class, 'changeState']);
 
 
     Route::resource('final-services', FinalServiceController::class);
@@ -81,6 +83,8 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     Route::get('announcements',  function () {
         return Inertia::render('admin/announcement/index');
     });
+
+    Route::resource('areas', AreaController::class);
 
     //Purchase and service
     Route::get('purchase-and-service',  function () {

@@ -12,7 +12,7 @@
         @onCancel="$emit('onCancel')"
         @onSumbit="submit"
     >
-</SimpleForm>
+    </SimpleForm>
 </template>
 
 <script setup>
@@ -23,7 +23,10 @@ import { ref } from "vue";
 const emit = defineEmits(["onCancel", "onSubmit"]);
 
 const props = defineProps({
-    planta: [String, Number],
+    areas: {
+        type: Array,
+        default: () => [],
+    },
     formData: {
         type: Object,
         default: {
@@ -35,6 +38,7 @@ const props = defineProps({
             email: "",
             password: "",
             role: "",
+            areaId: "",
         },
     },
     edit: {
@@ -125,6 +129,17 @@ const formStructure = [
         cols: 12,
         colMd: 6,
     },
+    {
+        key: "areaId",
+        label: "Area",
+        options: props.areas,
+        type: "combobox",
+        itemValue: "id",
+        itemTitle: "name",
+        required: true,
+        cols: 12,
+        colMd: 6,
+    },
 ];
 
 const formStructureEdit = [
@@ -182,6 +197,17 @@ const formStructureEdit = [
         label: "Rol",
         options: ["Administrador", "Operador"],
         type: "select",
+        required: true,
+        cols: 12,
+        colMd: 6,
+    },
+    {
+        key: "areaId",
+        label: "Area",
+        options: props.areas,
+        type: "combobox",
+        itemValue: "id",
+        itemTitle: "name",
         required: true,
         cols: 12,
         colMd: 6,

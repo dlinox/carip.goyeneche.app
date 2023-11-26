@@ -102,4 +102,12 @@ class FinalServiceController extends Controller
         $user->save();
         return redirect()->back()->with('success', 'Estado cambiado exitosamente.');
     }
+
+    public function destroy($id)
+    {
+        $user = FinalService::find($id);
+        $user->delete();
+        return redirect()->back()->with('success', 'Elemento eliminado exitosamente.');
+    }
+    
 }

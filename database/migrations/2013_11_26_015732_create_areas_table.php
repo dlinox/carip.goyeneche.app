@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('intermediate_services', function (Blueprint $table) {
+        Schema::create('areas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('img_path');
-            $table->string('description');
-            $table->unsignedBigInteger('supporting_service_id');
-            $table->foreign('supporting_service_id')->references('id')->on('supporting_services');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('intermediate_services');
+        Schema::dropIfExists('areas');
     }
 };

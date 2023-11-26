@@ -96,103 +96,6 @@ import { router } from "@inertiajs/vue3";
 const baseUrl = "/a";
 const menuOpen = ref([router.page.url.split("/")[2]]);
 
-const menuExpedientes = [
-    {
-        title: "Internos",
-        value: "internos",
-        icon: null,
-        to: "expedientes/internos",
-        group: null,
-    },
-    {
-        title: "Externos",
-        value: "expedientes/externos",
-        icon: null,
-        to: "expedientes/externos",
-        group: null,
-    },
-
-    {
-        title: "Archivados",
-        value: "expedientes/externos",
-        icon: null,
-        to: "expedientes/archivados",
-        group: null,
-    },
-
-    {
-        title: "Derivados",
-        value: "expedientes/externos",
-        icon: null,
-        to: "expedientes/derivados",
-        group: null,
-    },
-
-    {
-        title: "Finalizados",
-        value: "expedientes/externos",
-        icon: null,
-        to: "expedientes/finalizados",
-        group: null,
-    },
-    {
-        title: "Observados",
-        value: "expedientes/observados",
-        icon: null,
-        to: "expedientes/observados",
-        group: null,
-    },
-];
-
-const menuAdmininstrador = [
-    {
-        title: "Oficinas",
-        value: "oficinas",
-        icon: null,
-        to: "oficinas",
-        group: null,
-    },
-    {
-        title: "Acciones",
-        value: "oficinas",
-        icon: null,
-        to: "acciones",
-        group: null,
-    },
-
-    {
-        title: "Documentos",
-        value: "documentos",
-        icon: null,
-        to: "documentos",
-        group: null,
-    },
-    {
-        title: "Procesos",
-        value: "procesos",
-        icon: null,
-        to: "procesos",
-        group: null,
-    },
-];
-
-const menuSeguridad = [
-    {
-        title: "Roles",
-        value: "oficinas",
-        icon: null,
-        to: "seguridad/roles",
-        group: null,
-    },
-    {
-        title: "Administradores",
-        value: "oficinas",
-        icon: null,
-        to: "seguridad/administradores",
-        group: null,
-    },
-];
-
 const menuMain = [
     {
         title: "Dashboard",
@@ -264,15 +167,15 @@ const menuMain = [
         to: "#",
         group: [
             {
-                title: "Caetera de servicios",
-                value: "consultar",
+                title: "Cartera de servicios",
+                value: "info",
                 icon: "mdi-inbox-arrow-down-outline",
                 to: "servicePortfolio",
                 group: null,
             },
             {
                 title: "Cirucuito de atención",
-                value: "consultar",
+                value: "info",
                 icon: "mdi-inbox-arrow-down-outline",
                 to: "circuit",
                 group: null,
@@ -282,20 +185,20 @@ const menuMain = [
 
     {
         title: "Gestión de infomes y publicaciones",
-        value: "consultar",
+        value: "plubli",
         icon: "mdi-inbox-arrow-down-outline",
         to: "mensajes",
         group: [
             {
                 title: "Convocatorias",
-                value: "consultar",
+                value: "plubli",
                 icon: "mdi-inbox-arrow-down-outline",
                 to: "announcements",
                 group: null,
             },
             {
                 title: "Compra y servicio",
-                value: "consultar",
+                value: "plubli",
                 icon: "mdi-inbox-arrow-down-outline",
                 to: "purchase-and-service",
                 group: null,
@@ -342,6 +245,14 @@ const menuMain = [
                 value: "consultar",
                 icon: "mdi-inbox-arrow-down-outline",
                 to: "specialties",
+                group: null,
+            },
+
+            {
+                title: "Areas",
+                value: "consultar",
+                icon: "mdi-inbox-arrow-down-outline",
+                to: "areas",
                 group: null,
             },
         ],

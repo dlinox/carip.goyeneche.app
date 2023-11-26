@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Models\InstitutionalObjetive;
 use App\Models\Web\InstitutionalInformation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,8 +15,11 @@ class InstitutionalController extends Controller
 
         $institutional = InstitutionalInformation::first();
 
+        $objetives = InstitutionalObjetive::all();
+
         return Inertia::render('admin/institutional/index', [
             'institutional' => $institutional,
+            'objetives' => $objetives,
         ]);
     }
     public function store(Request $request)

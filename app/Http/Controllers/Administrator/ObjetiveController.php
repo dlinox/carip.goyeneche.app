@@ -80,7 +80,7 @@ class ObjetiveController extends Controller
             ]
         );
 
-        Objetive::find($id)->update($request->all());
+        InstitutionalObjetive::find($id)->update($request->all());
 
         return redirect()->back()
             ->with('message', 'Objetivo actualizado exitosamente.');
@@ -97,7 +97,7 @@ class ObjetiveController extends Controller
     }
     public function destroy(string $id)
     {
-        Objetive::find($id)->delete();
+        InstitutionalObjetive::find($id)->delete();
 
         return redirect()->back()
             ->with('message', 'Objetivo eliminado exitosamente.');

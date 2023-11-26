@@ -57,6 +57,7 @@ class User extends Authenticatable
         $user->role = $request->role;
         $user->email = $request->email;
         $user->password = $request->password;
+        $user->area_id = $request->areaId;
         $user->save();
         return $user;
     }
@@ -71,6 +72,7 @@ class User extends Authenticatable
         $user->phone_number = $request->phoneNumber;
         $user->role = $request->role;
         $user->email = $request->email;
+        $user->area_id = $request->areaId;
         $user->save();
         return $user;
     }
