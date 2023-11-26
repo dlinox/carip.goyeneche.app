@@ -23,7 +23,7 @@
             </template>
         </HeadingPage>
 
-        <!-- <v-container fluid>
+        <v-container fluid>
             <v-card>
                 <v-card-item>
                     <DataTable
@@ -127,7 +127,7 @@
                     </DataTable>
                 </v-card-item>
             </v-card>
-        </v-container> -->
+        </v-container>
     </AdminLayout>
 </template>
 <script setup>
@@ -147,14 +147,14 @@ const props = defineProps({
 });
 
 const primaryKey = "id";
-const url = "/a/specialties";
+const url = "/a/announcements";
 
 const formStructure = [
     {
-        key: "name",
-        label: "Nombre",
+        key: "title",
+        label: "Nombre de la convocatoria",
         type: "text",
-        required: true,
+        required: false,
         cols: 12,
         default: "",
     },
@@ -162,9 +162,25 @@ const formStructure = [
         key: "description",
         label: "Descripción",
         type: "textarea",
-        required: false,
+        required: true,
         cols: 12,
         default: "",
+    },
+    {
+        key: "date_published",
+        label: "Fecha de publicación",
+        type: "date",
+        required: true,
+        cols: 12,
+        default: "",
+    },
+    {
+        key: "document",
+        label: "Documento",
+        type: "file",
+        required: false,
+        cols: 12,
+        default: null,
     },
 ];
 </script>

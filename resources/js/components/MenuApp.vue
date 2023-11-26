@@ -126,14 +126,13 @@ const menuMain = [
                 to: "institutional",
                 group: null,
             },
-
             {
-        title: "Getion del personal",
-        value: "institutional",
-        icon: "mdi-inbox-arrow-down-outline",
-        to: "workers",
-        group: null,
-    },
+                title: "Getion del personal",
+                value: "institutional",
+                icon: "mdi-inbox-arrow-down-outline",
+                to: "workers",
+                group: null,
+            },
         ],
     },
 
@@ -227,7 +226,6 @@ const menuMain = [
         to: "events-and-campaigns",
         group: null,
     },
-
 
     {
         title: "Configuración",

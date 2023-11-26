@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Administrator\SpecialtyController;
 use App\Http\Controllers\Administrator\AdministratorController;
+use App\Http\Controllers\Administrator\AnnouncementsController;
 use App\Http\Controllers\Administrator\AreaController;
 use App\Http\Controllers\Administrator\CircuitController;
 use App\Http\Controllers\Administrator\FinalServiceController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\Administrator\SupportingServicesController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\Administrator\WorkerController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Models\IntermediateService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -80,9 +80,8 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
 
     Route::resource('specialties', SpecialtyController::class);
 
-    Route::get('announcements',  function () {
-        return Inertia::render('admin/announcement/index');
-    });
+    Route::resource('announcements', AnnouncementsController::class);
+    Route::patch('announcements/{id}/change-state',  [AnnouncementsController::class, 'changeState']); 
 
     Route::resource('areas', AreaController::class);
 
