@@ -1,29 +1,18 @@
 <template>
     <AdminLayout>
-        <HeadingPage title="Eventos y campañas" subtitle="Gestion de eventos y campañas">
+        <HeadingPage title="Eventos y Campañas" subtitle="Gestion de Eventos y Campañas">
             <template #actions>
-                <BtnDialog title="Nuevo" width="700px">
-                    <template v-slot:activator="{ dialog }">
-                        <v-btn
-                            @click="dialog"
-                            prepend-icon="mdi-plus"
-                            variant="flat"
-                        >
-                            Nuevo
-                        </v-btn>
-                    </template>
-                    <template v-slot:content="{ dialog }">
-                        <create
-                            :form-structure="formStructure"
-                            @on-cancel="dialog"
-                            :url="url"
-                        />
-                    </template>
-                </BtnDialog>
+                <v-btn
+                    @click="router.get(url + '/create')"
+                    prepend-icon="mdi-plus"
+                    variant="flat"
+                >
+                    Nuevo
+                </v-btn>
             </template>
         </HeadingPage>
 
-        <!-- <v-container fluid>
+        <v-container fluid>
             <v-card>
                 <v-card-item>
                     <DataTable
@@ -75,31 +64,16 @@
                         </template>
 
                         <template v-slot:action="{ item }">
-                            <BtnDialog title="Editar" width="500px">
-                                <template v-slot:activator="{ dialog }">
-                                    <v-btn
-                                        color="info"
-                                        icon
-                                        variant="outlined"
-                                        density="comfortable"
-                                        @click="dialog"
-                                    >
-                                        <v-icon
-                                            size="x-small"
-                                            icon="mdi-pencil"
-                                        ></v-icon>
-                                    </v-btn>
-                                </template>
-                                <template v-slot:content="{ dialog }">
-                                    <create
-                                        @on-cancel="dialog"
-                                        :formStructure="formStructure"
-                                        :form-data="item"
-                                        :edit="true"
-                                        :url="url"
-                                    />
-                                </template>
-                            </BtnDialog>
+                        
+                            <v-btn
+                                
+                                variant="outlined"
+                                density="comfortable"
+                                class="ml-1"
+                                color="blue"
+                                icon="mdi-pencil"
+                                @click="router.get(url + '/' + item[`${primaryKey}`] + '/' + 'edit')"
+                            />
 
                             <v-btn
                                 icon
@@ -127,16 +101,14 @@
                     </DataTable>
                 </v-card-item>
             </v-card>
-        </v-container> -->
+        </v-container>
     </AdminLayout>
 </template>
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import HeadingPage from "@/components/HeadingPage.vue";
-import BtnDialog from "@/components/BtnDialog.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
 import DataTable from "@/components/DataTable.vue";
-import create from "./create.vue";
 
 import { router } from "@inertiajs/core";
 
@@ -147,24 +119,6 @@ const props = defineProps({
 });
 
 const primaryKey = "id";
-const url = "/a/specialties";
+const url = "/a/events-and-campaigns";
 
-const formStructure = [
-    {
-        key: "name",
-        label: "Nombre",
-        type: "text",
-        required: true,
-        cols: 12,
-        default: "",
-    },
-    {
-        key: "description",
-        label: "Descripción",
-        type: "textarea",
-        required: false,
-        cols: 12,
-        default: "",
-    },
-];
 </script>

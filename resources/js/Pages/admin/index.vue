@@ -80,7 +80,7 @@ const menu = [
         ],
     },
     {
-        title: "Gestión de infomes y publicaciones",
+        title: "Gestión de infomes y publicaciones", //operador
         icon: "mdi-account",
         to: "/admin/users",
         chidrens: [
@@ -127,10 +127,10 @@ const menu = [
         ],
     },
     {
-        title: "Gestión de noticias",
+        title: "Gestión de noticias", //operador
     },
     {
-        title: "Gestión de campañas y eventos",
+        title: "Gestión de campañas y eventos",//operador
     },
 
     {

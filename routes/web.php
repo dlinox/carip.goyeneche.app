@@ -5,9 +5,11 @@ use App\Http\Controllers\Administrator\AdministratorController;
 use App\Http\Controllers\Administrator\AnnouncementsController;
 use App\Http\Controllers\Administrator\AreaController;
 use App\Http\Controllers\Administrator\CircuitController;
+use App\Http\Controllers\Administrator\EventsAndCampaignsController;
 use App\Http\Controllers\Administrator\FinalServiceController;
 use App\Http\Controllers\Administrator\InstitutionalController;
 use App\Http\Controllers\Administrator\IntermediateServiceController;
+use App\Http\Controllers\Administrator\NewsController;
 use App\Http\Controllers\Administrator\ObjetiveController;
 use App\Http\Controllers\Administrator\OfficeController;
 use App\Http\Controllers\Administrator\ServicePortfolioController;
@@ -91,15 +93,13 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     });
 
     //news
-    Route::get('news',  function () {
-        return Inertia::render('admin/news/index');
-    });
-
-    //events and campaigns
-    Route::get('events-and-campaigns',  function () {
-        return Inertia::render('admin/eventsAndCampaigns/index');
-    });
+    Route::resource('news', NewsController::class);
+    Route::patch('news/{id}/change-state',  [NewsController::class, 'changeState']);
     
+    
+    Route::resource('events-and-campaigns', EventsAndCampaignsController::class);
+    Route::patch('events-and-campaigns/{id}/change-state',  [EventsAndCampaignsController::class, 'changeState']);
+
 
     
 });
