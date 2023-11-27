@@ -29,7 +29,7 @@
                 </v-list-item>
             </v-toolbar>
 
-            <MenuApp  />
+            <MenuApp  :userRole="user?.role" />
         </v-navigation-drawer>
 
         <v-main>

@@ -1,8 +1,32 @@
 <template>
     <AdminLayout>
-        <HeadingPage title="Compra y servicio" subtitle="Gestion de información">
+        <HeadingPage
+            title="Compra y servicio"
+            subtitle="Gestion de información"
+        >
             <template #actions>
-                <BtnDialog title="Nuevo" width="700px">
+                <BtnDialog v-if="item" title="Nuevo" width="700px">
+                    <template v-slot:activator="{ dialog }">
+                        <v-btn
+                            @click="dialog"
+                            prepend-icon="mdi-pencil"
+                            variant="flat"
+                        >
+                            Editar
+                        </v-btn>
+                    </template>
+                    <template v-slot:content="{ dialog }">
+                        <create
+                            :form-structure="formStructure"
+                            @on-cancel="dialog"
+                            :url="url + '/' + item[`${primaryKey}`]"
+                            :edit="true"
+                            :form-data="item"
+                        />
+                    </template>
+                </BtnDialog>
+
+                <BtnDialog v-else title="Nuevo" width="700px">
                     <template v-slot:activator="{ dialog }">
                         <v-btn
                             @click="dialog"
@@ -23,146 +47,44 @@
             </template>
         </HeadingPage>
 
-        <!-- <v-container fluid>
-            <v-card>
-                <v-card-item>
-                    <DataTable
-                        :headers="headers"
-                        :items="items"
-                        with-action
-                        :url="url"
+        <v-container>
+            <v-list-item
+                :title="item.url_information"
+                subtitle="URL que redirigirá a la información completa de la orden en la web"
+            >
+                <template v-slot:prepend>
+                    <v-avatar
+                        class="pa-1"
+                        color="grey-lighten-1"
+                        rounded="sm"
+                        size="120"
+                        image="/assets/logos/svsc.png"
                     >
-                        <template v-slot:header="{ filter }">
-                            <v-row class="py-3" justify="end">
-                                <v-col cols="6"> </v-col>
-                                <v-col cols="6">
-                                    <v-text-field
-                                        v-model="filter.search"
-                                        label="Buscar"
-                                    />
-                                </v-col>
-                            </v-row>
-                        </template>
-
-                        <template v-slot:item.photo="{ item }">
-                            <v-img
-                                v-if="item.photo"
-                                :src="`/storage/${item.photo}`"
-                                width="50px"
-                                height="50px"
-                            />
-                        </template>
-
-                        <template v-slot:item.is_active="{ item }">
-                            <v-btn
-                                :color="item.is_active ? 'blue' : 'red'"
-                                variant="tonal"
-                            >
-                                <DialogConfirm
-                                    text="¿Cambiar estado del usuario?"
-                                    @onConfirm="
-                                        () =>
-                                            router.patch(
-                                                url +
-                                                    '/' +
-                                                    item[`${primaryKey}`] +
-                                                    '/change-state'
-                                            )
-                                    "
-                                />
-                                {{ item.is_active ? "Activo" : "Inactivo" }}
-                            </v-btn>
-                        </template>
-
-                        <template v-slot:action="{ item }">
-                            <BtnDialog title="Editar" width="500px">
-                                <template v-slot:activator="{ dialog }">
-                                    <v-btn
-                                        color="info"
-                                        icon
-                                        variant="outlined"
-                                        density="comfortable"
-                                        @click="dialog"
-                                    >
-                                        <v-icon
-                                            size="x-small"
-                                            icon="mdi-pencil"
-                                        ></v-icon>
-                                    </v-btn>
-                                </template>
-                                <template v-slot:content="{ dialog }">
-                                    <create
-                                        @on-cancel="dialog"
-                                        :formStructure="formStructure"
-                                        :form-data="item"
-                                        :edit="true"
-                                        :url="url"
-                                    />
-                                </template>
-                            </BtnDialog>
-
-                            <v-btn
-                                icon
-                                variant="outlined"
-                                density="comfortable"
-                                class="ml-1"
-                                color="red"
-                            >
-                                <DialogConfirm
-                                    @onConfirm="
-                                        () =>
-                                            router.delete(
-                                                url +
-                                                    '/' +
-                                                    item[`${primaryKey}`]
-                                            )
-                                    "
-                                />
-                                <v-icon
-                                    size="x-small"
-                                    icon="mdi-delete-empty"
-                                ></v-icon>
-                            </v-btn>
-                        </template>
-                    </DataTable>
-                </v-card-item>
-            </v-card>
-        </v-container> -->
+                    </v-avatar>
+                </template>
+            </v-list-item>
+        </v-container>
     </AdminLayout>
 </template>
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import HeadingPage from "@/components/HeadingPage.vue";
 import BtnDialog from "@/components/BtnDialog.vue";
-import DialogConfirm from "@/components/DialogConfirm.vue";
-import DataTable from "@/components/DataTable.vue";
 import create from "./create.vue";
 
-import { router } from "@inertiajs/core";
-
 const props = defineProps({
-    items: Object,
-    headers: Array,
-    filters: Object,
+    item: Object,
 });
 
 const primaryKey = "id";
-const url = "/a/specialties";
+const url = "/a/purchase-and-service";
 
 const formStructure = [
     {
-        key: "name",
-        label: "Nombre",
+        key: "url_information",
+        label: "Ingresar la URL",
         type: "text",
         required: true,
-        cols: 12,
-        default: "",
-    },
-    {
-        key: "description",
-        label: "Descripción",
-        type: "textarea",
-        required: false,
         cols: 12,
         default: "",
     },

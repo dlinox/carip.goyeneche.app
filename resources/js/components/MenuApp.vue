@@ -2,7 +2,7 @@
     <v-list v-model:opened="menuOpen" nav density="compact">
         <v-list-subheader>Menu</v-list-subheader>
 
-        <template v-for="(menu, index) in menuMain" :key="index">
+        <template v-for="(menu, index) in menu" :key="index">
             <template v-if="menu.group == null">
                 <v-list-item
                     :prepend-icon="menu.icon"
@@ -90,11 +90,64 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
+const props = defineProps({
+    userRole: String,
 
+});
 const baseUrl = "/a";
 const menuOpen = ref([router.page.url.split("/")[2]]);
+
+const menu = computed(() => props.userRole === 'Administrador' ? menuMain :  menuOperator );
+
+const menuOperator = [
+    {
+        title: "Dashboard",
+        value: "dashboard",
+        icon: "mdi-monitor-dashboard",
+        to: "",
+        group: null,
+    },
+
+    {
+        title: "Gestión de infomes y publicaciones",
+        value: "plubli",
+        icon: "mdi-inbox-arrow-down-outline",
+        to: "mensajes",
+        group: [
+            {
+                title: "Convocatorias",
+                value: "plubli",
+                icon: "mdi-inbox-arrow-down-outline",
+                to: "announcements",
+                group: null,
+            },
+            {
+                title: "Compra y servicio",
+                value: "plubli",
+                icon: "mdi-inbox-arrow-down-outline",
+                to: "purchase-and-service",
+                group: null,
+            },
+        ],
+    },
+
+    {
+        title: "Getion de noticias",
+        value: "consultar",
+        icon: "mdi-inbox-arrow-down-outline",
+        to: "news",
+        group: null,
+    },
+    {
+        title: "Gestion de campañas y eventos",
+        value: "consultar",
+        icon: "mdi-inbox-arrow-down-outline",
+        to: "events-and-campaigns",
+        group: null,
+    },
+];
 
 const menuMain = [
     {

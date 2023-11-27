@@ -12,6 +12,7 @@ use App\Http\Controllers\Administrator\IntermediateServiceController;
 use App\Http\Controllers\Administrator\NewsController;
 use App\Http\Controllers\Administrator\ObjetiveController;
 use App\Http\Controllers\Administrator\OfficeController;
+use App\Http\Controllers\Administrator\PurchaseAndServiceController;
 use App\Http\Controllers\Administrator\ServicePortfolioController;
 use App\Http\Controllers\Administrator\SupportingServicesController;
 use App\Http\Controllers\Administrator\UserController;
@@ -88,14 +89,15 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     Route::resource('areas', AreaController::class);
 
     //Purchase and service
-    Route::get('purchase-and-service',  function () {
-        return Inertia::render('admin/purchaseAndService/index');
-    });
-
+    Route::resource('purchase-and-service',  PurchaseAndServiceController::class);
+    Route::patch('purchase-and-service/{id}/change-state',  [PurchaseAndServiceController::class, 'changeState']);
+    
+    // Route::get('purchase-and-service',  function () {
+    //     return Inertia::render('admin/purchaseAndService/index');
+    // });
     //news
     Route::resource('news', NewsController::class);
     Route::patch('news/{id}/change-state',  [NewsController::class, 'changeState']);
-    
     
     Route::resource('events-and-campaigns', EventsAndCampaignsController::class);
     Route::patch('events-and-campaigns/{id}/change-state',  [EventsAndCampaignsController::class, 'changeState']);

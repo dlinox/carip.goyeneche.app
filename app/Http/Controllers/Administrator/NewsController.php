@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class NewsController extends Controller
@@ -26,6 +27,12 @@ class NewsController extends Controller
         if ($request->has('search')) {
             $searchTerm = $request->search;
             $query->where('title', 'like', '%' . $searchTerm . '%');
+        }
+
+        $user = Auth::user();
+
+        if ($user->role === 'Operador'){
+            $query->where('author', $user->id);
         }
 
         // Obtener resultados paginados

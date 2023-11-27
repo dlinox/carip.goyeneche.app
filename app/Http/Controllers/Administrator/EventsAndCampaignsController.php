@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\EventsAndCampaigns;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EventsAndCampaignsController extends Controller
@@ -25,6 +26,12 @@ class EventsAndCampaignsController extends Controller
         if ($request->has('search')) {
             $searchTerm = $request->search;
             $query->where('title', 'like', '%' . $searchTerm . '%');
+        }
+
+        $user = Auth::user();
+
+        if ($user->role === 'Operador'){
+            $query->where('author', $user->id);
         }
 
         // Obtener resultados paginados
