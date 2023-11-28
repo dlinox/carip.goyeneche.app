@@ -43,8 +43,8 @@ class CircuitController extends Controller
         $request->validate([
             'guideName' => 'required',
             'guideFile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'resolutionName' => 'required',
-            'resolutionFile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'resolutionName' => 'nullable',
+            'resolutionFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             
         ]);
 
@@ -53,7 +53,7 @@ class CircuitController extends Controller
             'guide_name' => $request->guideName,
             'guide_file' => $request->file('guideFile')->store('circuit/guides', 'public'),
             'resolution_name' => $request->resolutionName,
-            'resolution_file' => $request->file('resolutionFile')->store('circuit/resolutions', 'public'),
+            'resolution_file' => $request->hasFile('resolutionFile') ? $request->file('resolutionFile')->store('circuit/resolutions', 'public') : null,
         ]);
 
         return redirect()->back()->with('success', 'Circuit created.');

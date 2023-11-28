@@ -13,12 +13,15 @@ class Worker extends Model
         'fullname',
         'description',
         'person_id',
+        'code',
         'is_active'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    
 
     public function person()
     {
@@ -38,6 +41,7 @@ class Worker extends Model
         $user = new Worker();
         $user->fullname = $request->name . ' ' . $request->fatherLastName . ' ' . $request->motherLastName;
         $user->description = $request->description;
+        $user->code = $request->code;
         $user->person_id = $person;
         $user->save();
         return $user;
@@ -48,6 +52,7 @@ class Worker extends Model
         $user = Worker::find($id);
         $user->fullname = $request->name . ' ' . $request->fatherLastName . ' ' . $request->motherLastName;
         $user->description = $request->description;
+        $user->code = $request->code;
         $user->save();
         return $user;
     }

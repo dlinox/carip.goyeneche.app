@@ -44,9 +44,11 @@ class ServicePortfolioController extends Controller
             'guideFile' => 'required|file|mimes:pdf',
             'resolutionName' => 'required',
             'resolutionFile' => 'required|file|mimes:pdf',
+            'date_published' => 'required|date',
         ]);
 
         ServicePortfolio::create([
+            'date_published' => $request->date_published,
             'guide_name' => $request->guideName,
             'guide_file' => $request->file('guideFile')->store('servicePorfolio/guide', 'public'),
             'resolution_name' => $request->resolutionName,

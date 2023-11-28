@@ -7,6 +7,7 @@ use App\Http\Requests\DoctorRequest;
 use App\Models\OrganizationChart;
 use App\Models\Resources\Person;
 use App\Models\Resources\PersonPhoto;
+use App\Models\Specialty;
 use App\Models\Worker;
 use App\Models\WorkerSpecialty;
 use Illuminate\Http\Request;
@@ -39,6 +40,7 @@ class WorkerController extends Controller
                 'workers.id',
                 'workers.fullname',
                 'workers.description',
+                'workers.code',
                 'workers.is_active',
 
                 'persons.id as personId',
@@ -51,6 +53,7 @@ class WorkerController extends Controller
                 'person_photos.id as photoId',
                 'person_photos.path as photo',
 
+
                 'worker_specialties.id as specialtyId',
                 'worker_specialties.specialty_id as specialty',
 
@@ -61,11 +64,13 @@ class WorkerController extends Controller
             ->paginate($perPage)->appends($request->query());
 
         $itemsAuthorities = OrganizationChart::with('worker')->get();
+        $specialties = Specialty::select('id', 'name')->get();
 
         return Inertia::render('admin/workers/index', [
             'items' => $items,
             'itemsAuthorities' => $itemsAuthorities,
             'headers' => $this->worker->headers,
+            'specialties' => $specialties,
             'filters' => [
                 'search' => $request->search,
             ],

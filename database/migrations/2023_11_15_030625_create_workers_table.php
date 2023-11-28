@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workers', function (Blueprint $table) {
             $table->id();
+            $table->string('code', 15)->nullable();
             $table->string('fullname');
             $table->string('description');
             $table->boolean('is_active')->default(true);

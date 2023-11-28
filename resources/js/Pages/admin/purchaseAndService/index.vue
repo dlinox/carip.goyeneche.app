@@ -49,6 +49,7 @@
 
         <v-container>
             <v-list-item
+                v-if="item"
                 :title="item.url_information"
                 subtitle="URL que redirigirá a la información completa de la orden en la web"
             >

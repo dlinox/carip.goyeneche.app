@@ -137,39 +137,11 @@ const props = defineProps({
     items: Object,
     headers: Array,
     filters: Object,
+    specialties: Array,
 });
 
 const primaryKey = "id";
 const url = "/a/workers";
-
-const specialties = [
-    {
-        id: 1,
-        name: "Cardiología",
-        description: "Especialización en el corazón y los vasos sanguíneos.",
-    },
-    {
-        id: 2,
-        name: "Ortopedia",
-        description:
-            "Tratamiento de deformidades o discapacidades funcionales del sistema esquelético.",
-    },
-    {
-        id: 3,
-        name: "Dermatología",
-        description: "Enfermedades de la piel, cabello y uñas.",
-    },
-    {
-        id: 4,
-        name: "Neurología",
-        description: "Estudio del sistema nervioso.",
-    },
-    {
-        id: 5,
-        name: "Ginecología",
-        description: "Salud reproductiva femenina.",
-    },
-];
 
 const formStructureDoctor = [
     {
@@ -182,7 +154,7 @@ const formStructureDoctor = [
         default: "",
     },
     {
-        key: "cmp",
+        key: "code",
         label: "Nro. de Colegiatura",
         type: "text",
         required: true,
@@ -222,7 +194,7 @@ const formStructureDoctor = [
         type: "combobox",
         itemTitle: "name",
         itemValue: "id",
-        options: specialties,
+        options: props.specialties,
         required: true,
         cols: 12,
         default: "",

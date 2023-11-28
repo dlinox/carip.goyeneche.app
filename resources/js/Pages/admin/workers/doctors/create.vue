@@ -64,11 +64,11 @@ const props = defineProps({
 
 const previewImg = ref(null);
 
-const form = useForm({ ...props.formData, photo: null });
+const form = useForm({ ...props.formData, photoUrl:  props.formData.photo ? '/storage/' + props.formData.photo : null });
 
 const submit = async () => {
 
-    // form.photo = previewImg.value ? form.photo : null;
+    form.photo = previewImg.value ? form.photo : null;
     
     form.post(props.url, option);
 };

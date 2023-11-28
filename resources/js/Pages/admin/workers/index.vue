@@ -31,6 +31,7 @@
                     :items="items"
                     :headers="headers"
                     :filters="filters"
+                    :specialties="specialties"
                 />
             </v-window-item>
             <v-window-item :value="2">
@@ -57,6 +58,7 @@ const props = defineProps({
     filters: Object,
     itemsAuthorities: Object | Array,
     perPageOptions: Array,
+    specialties: Array,
 });
 
 const tab = ref(1);

@@ -121,6 +121,15 @@ const form = useForm({
 
 const formStructure = [
     {
+        key: "date_published",
+        label: "Fecha de publicacion",
+        type: "date",
+        required: true,
+        cols: 12,
+        //default fecha actual
+        default: new Date().toISOString().slice(0, 10),
+    },
+    {
         key: "guideName",
         label: "Titulo del documento guia",
         type: "text",

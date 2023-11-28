@@ -14,17 +14,20 @@ class ServicePortfolio extends Model
         'guide_file',
         'resolution_name',
         'resolution_file',
+        'date_published',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+
     ];
 
     public $headers =  [
         ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
         ['text' => "Doc. Guia", 'value' => "guide_name", 'short' => false, 'order' => 'ASC'],
         ['text' => "Resolución", 'value' => "resolution_name", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Fecha de publicación", 'value' => "date_published", 'short' => false, 'order' => 'ASC'],
         ['text' => "Activo", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
     ];
 
