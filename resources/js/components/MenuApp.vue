@@ -323,12 +323,12 @@ const menuMain = [
                 to: "sliders",
                 group: null,
             },
-            {
-                title: "Notificaciones",
-                value: "web",
-                to: "notifications",
-                group: null,
-            },
+            // {
+            //     title: "Notificaciones",
+            //     value: "web",
+            //     to: "notifications",
+            //     group: null,
+            // },
         ],
     },
 ];
