@@ -100,7 +100,12 @@ const previewImg2 = ref(null);
 
 
 
-const form = useForm({ ...props.formData });
+const form = useForm({ ...props.formData ,
+        guideFilePath: props.formData.guideFile ? '/storage/' + props.formData.guideFile : null,
+        resolutionFilePath: props.formData.resolutionFile ? '/storage/' + props.formData.resolutionFile : null,
+        guideFile: null,
+        resolutionFile: null,
+});
 
 const submit = async () => {
     form.transform((data) => ({

@@ -2,7 +2,7 @@
     <v-app app>
         <v-form
             class="w-100 h-screen d-flex justify-center align-center"
-            @submit.prevent="signInHandler"
+            @submit.prevent="submit"
         >
             <v-card width="400">
                 <v-card-item>
@@ -12,27 +12,28 @@
                         src="/assets/logos/logo.png"
                     />
                 </v-card-item>
+                         
                 <v-card-item>
                     <v-row>
                         <v-col cols="12" class="mt-2">
                             <v-text-field
-                                v-model="form.email"
+                                v-model="form.password"
                                 label="Correo"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="mt-2">
                             <v-text-field
-                                v-model="form.password"
-                                type="password"
-                                label="Contraseña"
+                                v-model="form.password_confirmation"
+                                label="Confirmar contraseña"
                             ></v-text-field>
                         </v-col>
+
                     </v-row>
                 </v-card-item>
                 <v-card-actions>
-                    <v-btn type="submit" variant="flat" block color="primary"
-                        >Ingresar</v-btn
-                    >
+                    <v-btn type="submit" variant="flat" block color="primary">
+                        Guardar
+                    </v-btn>
                 </v-card-actions>
                 <v-card-actions>
                     <v-btn
@@ -40,8 +41,8 @@
                         variant="text"
                         block
                         color="primary"
-                        @click="router.get('/auth/forgot-password')"
-                        >Olvidé mi contraseña</v-btn
+                        @click="router.get('/auth/login')"
+                        > Iniciar sesión </v-btn
                     >
                 </v-card-actions>
             </v-card>
@@ -53,12 +54,25 @@
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
-const form = ref({
-    email: "admin@goyeneche.com",
-    password: "password",
+const props = defineProps({
+    token: {
+        type: String,
+        required: true,
+    },
 });
 
-const signInHandler = async () => {
-    router.post("/auth/sign-in", form.value);
+const form = ref({
+    password: null,
+    password_confirmation: null,
+});
+
+const submit = async () => {
+    //validar que la contraseña sea igual a la confirmacion
+    if (form.value.password !== form.value.password_confirmation) {
+        alert("Las contraseñas no coinciden");
+        return;
+    }
+    router.post("/auth/reset-password", { ...form.value, token: props.token });
+    
 };
 </script>

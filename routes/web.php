@@ -14,10 +14,13 @@ use App\Http\Controllers\Administrator\ObjetiveController;
 use App\Http\Controllers\Administrator\OfficeController;
 use App\Http\Controllers\Administrator\PurchaseAndServiceController;
 use App\Http\Controllers\Administrator\ServicePortfolioController;
+use App\Http\Controllers\Administrator\SliderController;
 use App\Http\Controllers\Administrator\SupportingServicesController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\Administrator\WorkerController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Mail\ResetPasswordEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -42,6 +45,13 @@ Route::name('auth.')->prefix('auth')->group(function () {
     Route::get('/login',  [AuthController::class, 'index'])->name('login')->middleware('guest');
     Route::post('/sign-in',  [AuthController::class, 'signIn'])->name('sign-in')->middleware('guest');
     Route::post('/sign-out',  [AuthController::class, 'signOut'])->name('sign-out')->middleware('auth');
+
+    //Rutas para el recupero de contraseña
+    Route::get('/forgot-password',  [AuthController::class, 'forgotPassword'])->middleware('guest')->name('password.request');
+    Route::post('/forgot-password',  [AuthController::class, 'sendPasswordResetLink'])->middleware('guest')->name('password.email');
+
+    Route::get('/reset-password/{token}',  [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
+    Route::post('/reset-password',  [AuthController::class, 'updatePassword'])->middleware('guest')->name('password.update');
 });
 
 
@@ -84,24 +94,45 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     Route::resource('specialties', SpecialtyController::class);
 
     Route::resource('announcements', AnnouncementsController::class);
-    Route::patch('announcements/{id}/change-state',  [AnnouncementsController::class, 'changeState']); 
+    Route::patch('announcements/{id}/change-state',  [AnnouncementsController::class, 'changeState']);
 
     Route::resource('areas', AreaController::class);
 
     //Purchase and service
     Route::resource('purchase-and-service',  PurchaseAndServiceController::class);
     Route::patch('purchase-and-service/{id}/change-state',  [PurchaseAndServiceController::class, 'changeState']);
-    
+
     // Route::get('purchase-and-service',  function () {
     //     return Inertia::render('admin/purchaseAndService/index');
     // });
     //news
     Route::resource('news', NewsController::class);
     Route::patch('news/{id}/change-state',  [NewsController::class, 'changeState']);
-    
+
     Route::resource('events-and-campaigns', EventsAndCampaignsController::class);
     Route::patch('events-and-campaigns/{id}/change-state',  [EventsAndCampaignsController::class, 'changeState']);
 
-
+    // Route::get('sliders',  function () {
+    //     return Inertia::render('admin/sliders/index');
+    // });
     
+    Route::resource('sliders', SliderController::class);
+    Route::patch('sliders/{id}/change-state',  [SliderController::class, 'changeState']);
+
+    Route::get('notifications',  function () {
+        return Inertia::render('admin/notifications/index');
+    });
 });
+
+// test para elvial el mail ResetPasswordEmail
+// Route::get('/test-email', function () {
+//     Mail::to('nearlino20@gmail.com')->send(new ResetPasswordEmail());
+//     echo 'enviando correo';
+// });
+
+//Rutas para el recupero de contraseña
+
+//Route::get('/forgot-password',  [AuthController::class, 'forgotPassword'])->middleware('guest')->name('password.request');
+//Route::post('/forgot-password',  [AuthController::class, 'sendPasswordResetLink'])->middleware('guest')->name('password.email');
+//Route::get('/reset-password/{token}',  [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
+//Route::post('/reset-password',  [AuthController::class, 'updatePassword'])->middleware('guest')->name('password.update');

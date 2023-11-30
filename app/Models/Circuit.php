@@ -14,6 +14,7 @@ class Circuit extends Model
         'guide_file',
         'resolution_name',
         'resolution_file',
+        'date_published',
         'is_active',
     ];
 
@@ -23,9 +24,11 @@ class Circuit extends Model
 
     public $headers =  [
         ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
-        ['text' => "Doc. Guia", 'value' => "guide_name", 'short' => false, 'order' => 'ASC'],
-        ['text' => "Resolución", 'value' => "resolution_name", 'short' => false, 'order' => 'ASC'],
-        ['text' => "Activo", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Doc. Guia", 'value' => "guideName", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Resolución", 'value' => "resolutionName", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Fecha de publicación", 'value' => "datePublished", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Activo", 'value' => "isActive", 'short' => false, 'order' => 'ASC'],
+
     ];
 
     protected $appends = [

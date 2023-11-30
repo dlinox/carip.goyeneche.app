@@ -30,7 +30,12 @@
         <v-container fluid>
             <v-card>
                 <v-card-item>
-                    <DataTable :headers="headers" :items="items" :url="url">
+                    <DataTable
+                        :headers="headers"
+                        :items="items"
+                        :url="url"
+                        withAction
+                    >
                         <template v-slot:header="{ filter }">
                             <v-row class="py-3" justify="end">
                                 <v-col cols="6">
@@ -42,9 +47,9 @@
                             </v-row>
                         </template>
 
-                        <template v-slot:item.guide_name="{ item }">
+                        <template v-slot:item.guideName="{ item }">
                             <a
-                                :href="item.guideFilePath"
+                                :href="`/storage/${item.guideFile}`"
                                 target="_blank"
                                 class="text-black text-decoration-none"
                             >
@@ -53,13 +58,13 @@
                                     color="red"
                                     icon="mdi-file-pdf-box"
                                 />
-                                {{ item.guide_name }}
+                                {{ item.guideName }}
                             </a>
                         </template>
 
-                        <template v-slot:item.resolution_name="{ item }">
+                        <template v-slot:item.resolutionName="{ item }">
                             <a
-                                :href="item.resolutionFilePath"
+                                :href="`/storage/${item.resolutionFile}`"
                                 target="_blank"
                                 class="text-black text-decoration-none"
                             >
@@ -68,13 +73,13 @@
                                     color="red"
                                     icon="mdi-file-pdf-box"
                                 />
-                                {{ item.resolution_name }}
+                                {{ item.resolutionName }}
                             </a>
                         </template>
 
-                        <template v-slot:item.is_active="{ item }">
+                        <template v-slot:item.isActive="{ item }">
                             <v-btn
-                                :color="item.is_active ? 'blue' : 'red'"
+                                :color="item.isActive ? 'blue' : 'red'"
                                 variant="tonal"
                             >
                                 <DialogConfirm
@@ -89,14 +94,64 @@
                                             )
                                     "
                                 />
-                                {{ item.is_active ? "Activo" : "Inactivo" }}
+                                {{ item.isActive ? "Activo" : "Inactivo" }}
+                            </v-btn>
+                        </template>
+
+                        <template v-slot:action="{ item }">
+                            <BtnDialog title="Editar" width="500px">
+                                <template v-slot:activator="{ dialog }">
+                                    <v-btn
+                                        color="info"
+                                        icon
+                                        variant="outlined"
+                                        density="comfortable"
+                                        @click="dialog"
+                                    >
+                                        <v-icon
+                                            size="x-small"
+                                            icon="mdi-pencil"
+                                        ></v-icon>
+                                    </v-btn>
+                                </template>
+                                <template v-slot:content="{ dialog }">
+                                    <create
+                                        @on-cancel="dialog"
+                                        :formStructure="formStructure"
+                                        :form-data="item"
+                                        :edit="true"
+                                        :url="url"
+                                    />
+                                </template>
+                            </BtnDialog>
+
+                            <v-btn
+                                icon
+                                variant="outlined"
+                                density="comfortable"
+                                class="ml-1"
+                                color="red"
+                            >
+                                <DialogConfirm
+                                    @onConfirm="
+                                        () =>
+                                            router.delete(
+                                                url +
+                                                    '/' +
+                                                    item[`${primaryKey}`]
+                                            )
+                                    "
+                                />
+                                <v-icon
+                                    size="x-small"
+                                    icon="mdi-delete-empty"
+                                ></v-icon>
                             </v-btn>
                         </template>
                     </DataTable>
                 </v-card-item>
             </v-card>
         </v-container>
-
     </AdminLayout>
 </template>
 <script setup>
@@ -114,14 +169,9 @@ const props = defineProps({
     filters: Object,
 });
 
-const form = useForm({
-    name: "",
-    description: "",
-});
-
 const formStructure = [
     {
-        key: "date_published",
+        key: "datePublished",
         label: "Fecha de publicacion",
         type: "date",
         required: true,
@@ -165,18 +215,4 @@ const formStructure = [
 
 const primaryKey = "id";
 const url = "/a/servicePortfolio";
-
-const submit = async () => {
-    form.post("/a/institutional", {
-        onSuccess: () => {
-            console.log("success");
-        },
-        onError: () => {
-            console.log("error");
-        },
-        onFinish: () => {
-            console.log("finish");
-        },
-    });
-};
 </script>

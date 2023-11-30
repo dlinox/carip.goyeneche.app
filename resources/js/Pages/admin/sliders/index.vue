@@ -1,10 +1,6 @@
 <template>
     <AdminLayout>
-        <HeadingPage
-            title="Documento Guía"
-            subtitle="Cartera de Servicio"
-            class="bg-white"
-        >
+        <HeadingPage title="Sliders" subtitle="Gestion de la web">
             <template #actions>
                 <BtnDialog title="Nuevo" width="700px">
                     <template v-slot:activator="{ dialog }">
@@ -18,8 +14,8 @@
                     </template>
                     <template v-slot:content="{ dialog }">
                         <create
+                            :form-structure="formStructure"
                             @on-cancel="dialog"
-                            :formStructure="formStructure"
                             :url="url"
                         />
                     </template>
@@ -30,9 +26,15 @@
         <v-container fluid>
             <v-card>
                 <v-card-item>
-                    <DataTable :headers="headers" :items="items" :url="url" withAction>
+                    <DataTable
+                        :headers="headers"
+                        :items="items"
+                        with-action
+                        :url="url"
+                    >
                         <template v-slot:header="{ filter }">
                             <v-row class="py-3" justify="end">
+                                <v-col cols="6"> </v-col>
                                 <v-col cols="6">
                                     <v-text-field
                                         v-model="filter.search"
@@ -42,39 +44,25 @@
                             </v-row>
                         </template>
 
-                        <template v-slot:item.guideName="{ item }">
-                            <a
-                                :href="`/storage/${item.guideFile}`"
-                                target="_blank"
-                                class="text-black text-decoration-none"
-                            >
-                                <v-icon
-                                    size="x-small"
-                                    color="blue"
-                                    icon="mdi-image-multiple-outline"
-                                />
-                                {{ item.guideName }}
+                        <template v-slot:item.image="{ item }">
+                            <v-img
+                                v-if="item.image"
+                                :src="`/storage/${item.image}`"
+                                width="50px"
+                                height="50px"
+                            />
+                        </template>
+
+                        <template v-slot:item.link="{ item }">
+                            <a :href="item.link" target="_blank">
+                                {{ item.link }}
                             </a>
                         </template>
 
-                        <template v-slot:item.resolutionName="{ item }">
-                            <a
-                                :href="`/storage/${item.resolutionFile}`"
-                                target="_blank"
-                                class="text-black text-decoration-none"
-                            >
-                                <v-icon
-                                    size="x-small"
-                                    color="blue"
-                                    icon="mdi-image-multiple-outline"
-                                />
-                                {{ item.resolutionName }}
-                            </a>
-                        </template>
 
-                        <template v-slot:item.isActive="{ item }">
+                        <template v-slot:item.is_active="{ item }">
                             <v-btn
-                                :color="item.isActive ? 'blue' : 'red'"
+                                :color="item.is_active ? 'blue' : 'red'"
                                 variant="tonal"
                             >
                                 <DialogConfirm
@@ -89,7 +77,7 @@
                                             )
                                     "
                                 />
-                                {{ item.isActive ? "Activo" : "Inactivo" }}
+                                {{ item.is_active ? "Activo" : "Inactivo" }}
                             </v-btn>
                         </template>
 
@@ -143,22 +131,23 @@
                                 ></v-icon>
                             </v-btn>
                         </template>
-
-
                     </DataTable>
                 </v-card-item>
             </v-card>
         </v-container>
+
     </AdminLayout>
 </template>
 <script setup>
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import HeadingPage from "@/components/HeadingPage.vue";
-import { useForm, router } from "@inertiajs/vue3";
-import BtnDialog from "../../../components/BtnDialog.vue";
-import create from "./create.vue";
-import DataTable from "@/components/DataTable.vue";
+import BtnDialog from "@/components/BtnDialog.vue";
 import DialogConfirm from "@/components/DialogConfirm.vue";
+import DataTable from "@/components/DataTable.vue";
+import create from "./create.vue";
+
+import { router } from "@inertiajs/core";
+import { ref } from "vue";
 
 const props = defineProps({
     items: Object,
@@ -166,66 +155,42 @@ const props = defineProps({
     filters: Object,
 });
 
+const primaryKey = "id";
+const url = "/a/sliders";
+
 const formStructure = [
     {
-        key: "datePublished",
-        label: "Fecha de publicacion",
-        type: "date",
-        required: true,
-        cols: 12,
-        //default fecha actual
-        default: new Date().toISOString().slice(0, 10),
-    },
-    {
-        key: "guideName",
-        label: "Circuito de atencion de : ",
+        key: "title",
+        label: "Titulo",
         type: "text",
-        //select de servicios de apoyo
         required: true,
         cols: 12,
         default: "",
     },
     {
-        key: "guideFile",
-        label: "Archivo Guia",
+        key: "subtitle",
+        label: "Subtitulo",
         type: "text",
         required: true,
         cols: 12,
-        default: null,
+        default: "",
     },
     {
-        //OPCIONAL
-        key: "resolutionName",
-        label: "Circuito de atencion complementario ",
+        key: "link",
+        label: "Link mas informacion",
         type: "text",
+        required: false,
+        cols: 12,
+        default: "",
+    },
+    {
+        key: "image",
+        label: "imagen",
+        type: "file",
         required: false,
         cols: 12,
         default: null,
     },
-    {
-        key: "resolutionFile",
-        label: "Resolucion",
-        type: "text",
-        required: false,
-        cols: 12,
-        default: null,
-    },
+    
 ];
-
-const primaryKey = "id";
-const url = "/a/circuit";
-
-const submit = async () => {
-    form.post("/a/institutional", {
-        onSuccess: () => {
-            console.log("success");
-        },
-        onError: () => {
-            console.log("error");
-        },
-        onFinish: () => {
-            console.log("finish");
-        },
-    });
-};
 </script>

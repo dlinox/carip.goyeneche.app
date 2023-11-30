@@ -69,7 +69,7 @@
                     accept="application/pdf"
                     class="mb-1 mt-2"
                 >
-                    <template v-if="form.resolutionFile" #append>
+                    <template v-if="form.resolution_file" #append>
                         <v-btn
                             variant="tonal"
                             rounded="lg"
@@ -124,6 +124,7 @@ const props = defineProps({
         default: (props) =>
             props.formStructure?.reduce((acc, item) => {
                 acc[item.key] = item.default;
+
                 return acc;
             }, {}),
     },
@@ -137,7 +138,15 @@ const props = defineProps({
     url: String,
 });
 
-const form = useForm({ ...props.formData });
+const form = useForm({
+    ...props.formData,
+    guideFilePath: props.formData.guideFile ? props.formData.guideFile : null,
+    resolutionFilePath: props.formData.resolutionFile
+        ? props.formData.resolutionFile
+        : null,
+    guideFile: null,
+    resolutionFile: null,
+});
 
 const submit = async () => {
     form.transform((data) => ({

@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $userId,
             'phoneNumber' => 'required',
             'password' => $userId ? '' : 'required',
-            'role' => 'required',
+            'role' => 'nullable',
         ];
     }
 

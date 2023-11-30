@@ -2,7 +2,7 @@
     <v-app app>
         <v-form
             class="w-100 h-screen d-flex justify-center align-center"
-            @submit.prevent="signInHandler"
+            @submit.prevent="submit"
         >
             <v-card width="400">
                 <v-card-item>
@@ -12,6 +12,14 @@
                         src="/assets/logos/logo.png"
                     />
                 </v-card-item>
+                
+                    <v-alert variant="text">
+                        Recibirás un correo con un enlace para restablecer tu
+                        contraseña. Por favor, verifica tu bandeja de entrada (y
+                        la carpeta de correo no deseado) en los próximos
+                        minutos.
+                    </v-alert>
+                
                 <v-card-item>
                     <v-row>
                         <v-col cols="12" class="mt-2">
@@ -20,19 +28,12 @@
                                 label="Correo"
                             ></v-text-field>
                         </v-col>
-                        <v-col cols="12" class="mt-2">
-                            <v-text-field
-                                v-model="form.password"
-                                type="password"
-                                label="Contraseña"
-                            ></v-text-field>
-                        </v-col>
                     </v-row>
                 </v-card-item>
                 <v-card-actions>
-                    <v-btn type="submit" variant="flat" block color="primary"
-                        >Ingresar</v-btn
-                    >
+                    <v-btn type="submit" variant="flat" block color="primary">
+                        Enviar
+                    </v-btn>
                 </v-card-actions>
                 <v-card-actions>
                     <v-btn
@@ -40,8 +41,8 @@
                         variant="text"
                         block
                         color="primary"
-                        @click="router.get('/auth/forgot-password')"
-                        >Olvidé mi contraseña</v-btn
+                        @click="router.get('/auth/login')"
+                        > Iniciar sesion </v-btn
                     >
                 </v-card-actions>
             </v-card>
@@ -54,11 +55,10 @@ import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
 const form = ref({
-    email: "admin@goyeneche.com",
-    password: "password",
+    email: null,
 });
 
-const signInHandler = async () => {
-    router.post("/auth/sign-in", form.value);
+const submit = async () => {
+    router.post("/auth/forgot-password", form.value);
 };
 </script>

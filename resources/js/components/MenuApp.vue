@@ -310,6 +310,27 @@ const menuMain = [
             },
         ],
     },
+
+    {
+        title: "Gestion de la web",
+        value: "web",
+        icon: "mdi-web",
+        to: "#",
+        group: [
+            {
+                title: "Slider",
+                value: "web",
+                to: "sliders",
+                group: null,
+            },
+            {
+                title: "Notificaciones",
+                value: "web",
+                to: "notifications",
+                group: null,
+            },
+        ],
+    },
 ];
 
 //const currentMenu = computed(() => router.page.url.split('/')[1] );
