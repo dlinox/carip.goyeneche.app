@@ -2,7 +2,7 @@
     <v-list v-model:opened="menuOpen" nav density="compact">
         <v-list-subheader>Menu</v-list-subheader>
 
-        <template v-for="(menu, index) in menu" :key="index">
+        <template v-for="(menu, index) in menus" :key="index">
             <template v-if="menu.group == null">
                 <v-list-item
                     :prepend-icon="menu.icon"
@@ -94,14 +94,16 @@ import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 const props = defineProps({
     userRole: String,
-
+    userArea: [String, Number],
 });
 const baseUrl = "/a";
 const menuOpen = ref([router.page.url.split("/")[2]]);
 
-const menu = computed(() => props.userRole === 'Administrador' ? menuMain :  menuOperator );
+const menus = computed(() =>
+    props.userRole === "Administrador" ? menuMain : menuOperator[props.userArea]
+);
 
-const menuOperator = [
+const menuOperator1 = [
     {
         title: "Dashboard",
         value: "dashboard",
@@ -132,6 +134,42 @@ const menuOperator = [
             },
         ],
     },
+];
+
+const menuOperator2 = [
+    {
+        title: "Dashboard",
+        value: "dashboard",
+        icon: "mdi-monitor-dashboard",
+        to: "",
+        group: null,
+    },
+
+    {
+        title: "Gestión de infomes y publicaciones",
+        value: "plubli",
+        icon: "mdi-inbox-arrow-down-outline",
+        to: "mensajes",
+        group: [
+            {
+                title: "Convocatorias",
+                value: "plubli",
+                icon: "mdi-inbox-arrow-down-outline",
+                to: "announcements",
+                group: null,
+            },
+        ],
+    },
+];
+
+const menuOperator3 = [
+    {
+        title: "Dashboard",
+        value: "dashboard",
+        icon: "mdi-monitor-dashboard",
+        to: "",
+        group: null,
+    },
 
     {
         title: "Getion de noticias",
@@ -148,6 +186,12 @@ const menuOperator = [
         group: null,
     },
 ];
+
+let menuOperator = {
+    1: menuOperator1,
+    2: menuOperator2,
+    3: menuOperator3,
+};
 
 const menuMain = [
     {

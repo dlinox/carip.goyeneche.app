@@ -5,8 +5,62 @@
         @onCancel="$emit('onCancel')"
         @onSumbit="submit"
     >
-        <template #field.document>
-            <v-list-item class="py-0">
+        <template #field.documents>
+            <v-btn
+                color="primary"
+                @click="addFile"
+                prependIcon="mdi-plus"
+                block
+            >
+                Agregar documento
+            </v-btn>
+            <v-card variant="tonal" v-for="(item, index) in form.documents">
+                <v-card-item>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-text-field
+                                class="mb-1 mt-2"
+                                v-model="item.fileName"
+                                label="Nombre del documento"
+                            >
+                                <template v-slot:append>
+                                    <v-btn
+                                        
+                                        color="red"
+                                        density="comfortable"
+                                        icon="mdi-close"
+                                        variant="tonal"
+                                        @click="removeFile(index)"
+                                    />
+                                </template>
+                            </v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <v-text-field
+                                class="mb-1 mt-2"
+                                v-model="item.fileDate"
+                                label="Fecha de publicación"
+                            />
+                        </v-col>
+
+                        <v-col cols="12" md="6">
+                            <v-file-input
+                                @change="handleFileChangeDoc"
+                                v-model="item.file"
+                                show-size
+                                single
+                                label="Seleccione el documento"
+                                accept="application/pdf"
+                                class="mb-1 mt-2"
+                            >
+                            </v-file-input>
+                        </v-col>
+                    </v-row>
+                </v-card-item>
+            </v-card>
+
+            <!-- <v-list-item class="py-0">
                 <v-file-input
                     @change="handleFileChangeDoc"
                     v-model="form.document"
@@ -54,11 +108,8 @@
                         </small>
                     </v-list-item-subtitle>
                 </v-list-item>
-            </v-card>
-
+            </v-card> -->
         </template>
-
-      
     </SimpleForm>
 
 </template>
@@ -90,12 +141,11 @@ const props = defineProps({
     url: String,
 });
 
-const form = useForm({ ...props.formData, document: null });
+const form = useForm({ ...props.formData, documents: [] });
 
 const submit = async () => {
     form.transform((data) => ({
         ...data,
-        document: data.document ? data.document[0] : null,
     })).post(props.url, option);
 };
 
@@ -125,6 +175,18 @@ const handleFileChangeDoc = (event) => {
 const cancelUploadGuide = () => {
     fileListDocs.value = [];
     form.document = null;
+};
+
+const addFile = () => {
+    form.documents.push({
+        fileName: null,
+        file: null,
+        fileDate: new Date().toISOString().slice(0, 10),
+    });
+};
+
+const removeFile = (index) => {
+    form.documents.splice(index, 1);
 };
 
 const option = {

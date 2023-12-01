@@ -64,11 +64,11 @@ class CircuitController extends Controller
             $circuit->resolution_name = $request->resolutionName;
             $circuit->date_published = $request->datePublished;
             if($request->hasFile('guideFile')){
-                Storage::disk('public')->delete($circuit->guide_file);
+                // Storage::disk('public')->delete($circuit->guide_file);
                 $circuit->guide_file = $request->file('guideFile')->store('circuit/guides', 'public');
             }
             if($request->hasFile('resolutionFile')){
-                Storage::disk('public')->delete($circuit->resolution_file);
+                // Storage::disk('public')->delete($circuit->resolution_file);
                 $circuit->resolution_file = $request->file('resolutionFile')->store('circuit/resolutions', 'public');
             }
             $circuit->save();

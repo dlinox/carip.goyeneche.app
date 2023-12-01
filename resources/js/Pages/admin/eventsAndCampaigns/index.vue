@@ -1,6 +1,9 @@
 <template>
     <AdminLayout>
-        <HeadingPage title="Eventos y Campañas" subtitle="Gestion de Eventos y Campañas">
+        <HeadingPage
+            title="Eventos y Campañas"
+            subtitle="Gestion de Eventos y Campañas"
+        >
             <template #actions>
                 <v-btn
                     @click="router.get(url + '/create')"
@@ -64,15 +67,21 @@
                         </template>
 
                         <template v-slot:action="{ item }">
-                        
                             <v-btn
-                                
                                 variant="outlined"
                                 density="comfortable"
                                 class="ml-1"
                                 color="blue"
                                 icon="mdi-pencil"
-                                @click="router.get(url + '/' + item[`${primaryKey}`] + '/' + 'edit')"
+                                @click="
+                                    router.get(
+                                        url +
+                                            '/' +
+                                            item[`${primaryKey}`] +
+                                            '/' +
+                                            'edit'
+                                    )
+                                "
                             />
 
                             <v-btn
@@ -120,5 +129,4 @@ const props = defineProps({
 
 const primaryKey = "id";
 const url = "/a/events-and-campaigns";
-
 </script>

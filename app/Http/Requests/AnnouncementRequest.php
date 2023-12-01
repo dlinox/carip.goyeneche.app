@@ -29,7 +29,12 @@ class AnnouncementRequest extends FormRequest
             'title' => 'required|string',
             'description' => 'required|string',
             'date_published' => 'required|date',
-            'document' => $document . 'file|mimes:pdf|max:10240',
+            'documents' => $document . 'file|mimes:pdf|max:10240',
+            'documents' => $document . 'array',
+            'documents.*.fileName' => $document . 'string',
+            'documents.*.file' =>  $document . 'array',
+            'documents.*.file.*' => $document . 'file|mimes:pdf|max:10240', // Asegura que cada elemento en el array sea un archivo.
+            'documents.*.fileDate' => $document . 'date',
         ];
     }
 

@@ -23,19 +23,25 @@ class Announcements extends Model
         'is_active' => 'boolean',
     ];
 
-    protected $appends = [
-        'documentPath',
+    protected $with = [
+        'documents',
     ];
 
-    public function getDocumentPathAttribute()
+    // AnnouncementsDocuments :    protected $fillable = ["announcement_id", "name", "file", "date_published", "is_active"];
+
+    public function documents()
     {
-        return asset('storage/' . $this->document);
+        return $this->hasMany(AnnouncementDocument::class, 'announcement_id');
     }
+
 
     public $headers =  [
         ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
         ['text' => "Nombre", 'value' => "title", 'short' => false, 'order' => 'ASC'],
         ['text' => "Descripción", 'value' => "description", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Fecha de publicación", 'value' => "date_published", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Documentos", 'value' => "documents", 'short' => false, 'order' => 'ASC'],
+
         ['text' => "Estado", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
     ];
 

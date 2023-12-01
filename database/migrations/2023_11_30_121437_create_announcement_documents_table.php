@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('announcements', function (Blueprint $table) {
+        Schema::create('announcement_documents', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
+            $table->unsignedBigInteger('announcement_id');
+            $table->string('name')->nullable();
+            $table->string('file');
             $table->date('date_published');
-            $table->date('date_expired')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->foreign('announcement_id')->references('id')->on('announcements')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('announcements');
+        Schema::dropIfExists('announcement_documents');
     }
 };

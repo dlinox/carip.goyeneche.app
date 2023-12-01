@@ -44,13 +44,52 @@
                             </v-row>
                         </template>
 
-                        <template v-slot:item.photo="{ item }">
-                            <v-img
-                                v-if="item.photo"
-                                :src="`/storage/${item.photo}`"
-                                width="50px"
-                                height="50px"
-                            />
+                        <template v-slot:item.documents="{ item }">
+                            <v-list-item
+                                style="width: 200px"
+                                v-for="file in item.documents"
+                            >
+                                <v-list-item-title>
+                                    {{ file.name }}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    {{ file.date_published }}
+                                </v-list-item-subtitle>
+                                <template v-slot:prepend>
+                                    <a
+                                        :href="file.filePath"
+                                        target="_blank"
+                                        class="me-1"
+                                    >
+                                        <v-icon
+                                            color="red"
+                                            icon="mdi-file-pdf-box"
+                                        ></v-icon>
+                                    </a>
+                                </template>
+
+                                <template v-slot:append>
+                                    <v-btn
+                                        variant="tonal"
+                                        icon
+                                        density="compact"
+                                    >
+                                        <DialogConfirm
+                                            text="¿Eliminar documento?"
+                                            @onConfirm="
+                                                () =>
+                                                    router.delete(`${url}/${item.id}/documents/${file.id}`)
+                                            "
+                                        />
+                                        <v-icon
+                                            color="red"
+                                            icon="mdi-delete-empty"
+                                        ></v-icon>
+                                    </v-btn>
+                                </template>
+                            </v-list-item>
+
+                            <!-- <pre>{{ item.documents }}</pre> -->
                         </template>
 
                         <template v-slot:item.is_active="{ item }">
@@ -148,6 +187,7 @@ const props = defineProps({
 
 const primaryKey = "id";
 const url = "/a/announcements";
+const urlDocuments = "/a/announcements-documents";
 
 const formStructure = [
     {
@@ -175,12 +215,18 @@ const formStructure = [
         default: "",
     },
     {
-        key: "document",
+        key: "documents",
         label: "Documento",
-        type: "file",
+        type: "files",
         required: false,
         cols: 12,
-        default: null,
+        default: [
+            {
+                fileName: null,
+                file: null,
+                fileDate: new Date().toISOString().slice(0, 10),
+            },
+        ],
     },
 ];
 </script>

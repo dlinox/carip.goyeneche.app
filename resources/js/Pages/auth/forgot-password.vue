@@ -59,6 +59,11 @@ const form = ref({
 });
 
 const submit = async () => {
-    router.post("/auth/forgot-password", form.value);
+    router.post("/auth/forgot-password", form.value, {
+        onSuccess: () => {
+            form.value.email = null;
+            alert("Se ha enviado un correo con el enlace para restablecer tu contraseña.");
+        },
+    });
 };
 </script>

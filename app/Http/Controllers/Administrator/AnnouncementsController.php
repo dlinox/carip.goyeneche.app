@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AnnouncementRequest;
+use App\Models\AnnouncementDocument;
 use App\Models\Announcements;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,9 +13,11 @@ use Inertia\Inertia;
 class AnnouncementsController extends Controller
 {
     protected $announcement;
+    protected $announcementDocument;
     public function __construct()
     {
         $this->announcement = new Announcements();
+        $this->announcementDocument = new AnnouncementDocument();
     }
     public function index(Request $request)
     {
@@ -46,22 +49,37 @@ class AnnouncementsController extends Controller
         try {
 
             if ($request->id) {
+                $announcement = Announcements::find($request->id);
+                $announcement->title = $request->title;
+                $announcement->description = $request->description;
+                $announcement->save();
 
-                $announcements = Announcements::find($request->id);
-                $announcements->title = $request->title;
-                $announcements->description = $request->description;
-                if ($request->hasFile('document')) {
-                    $announcements->document = $request->file('document')->store('announcements', 'public');
+                foreach ($request->documents as $document) {
+                    AnnouncementDocument::create([
+                        'announcement_id' => $announcement->id,
+                        'name' => $document['fileName'],
+                        'file' => $document['file'][0]->store('documents', 'public'),
+                        // $request->file('img_path')->store('finalServices', 'public');
+                        'date_published' => $document['fileDate'],
+                    ]);
                 }
-                $announcements->save();
-                
             } else {
-                Announcements::create([
+
+                $announcement =  Announcements::create([
                     'title' => $request->title,
                     'description' => $request->description,
                     'date_published' => $request->date_published,
-                    'document' => $request->hasFile('document') ? $request->file('document')->store('announcements', 'public') : null,
                 ]);
+
+                foreach ($request->documents as $document) {
+                    AnnouncementDocument::create([
+                        'announcement_id' => $announcement->id,
+                        'name' => $document['fileName'],
+                        'file' => $document['file'][0]->store('documents', 'public'),
+                        // $request->file('img_path')->store('finalServices', 'public');
+                        'date_published' => $document['fileDate'],
+                    ]);
+                }
             }
             DB::commit();
         } catch (\Throwable $th) {
@@ -84,6 +102,18 @@ class AnnouncementsController extends Controller
     {
         try {
             Announcements::find($id)->delete();
+            return redirect()->back()->with('success', 'Elemento eliminado exitosamente.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors(['Error al eliminar el elemento.', $th->getMessage()]);
+        }
+    }
+
+
+    //Route::delete('announcements/{id}/documents/{document}',  [AnnouncementsController::class, 'documentsDestroy']);
+    public function documentsDestroy($id, $document)
+    {
+        try {
+            AnnouncementDocument::find($document)->delete();
             return redirect()->back()->with('success', 'Elemento eliminado exitosamente.');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors(['Error al eliminar el elemento.', $th->getMessage()]);

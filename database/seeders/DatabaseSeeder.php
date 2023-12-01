@@ -18,11 +18,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+        //      'name' => 'Pesonal',//2
+        //'name' => 'Comunicaciones',//3
         $areas = [
             [
-                'name' => 'Logistica',
+                'name' => 'Logistica', //1
             ],
+            [
+                'name' => 'Pesonal', //4
+            ],
+            [
+                'name' => 'Comunicaciones', //4
+            ]
         ];
 
         foreach ($areas as $area) {
@@ -68,7 +75,7 @@ class DatabaseSeeder extends Seeder
             'document_number' => '12345678',
             'phone_number' => '123456789',
             'email' => 'admin@goyeneche.com',
-            'password' => 'password',   
+            'password' => 'password',
         ]);
 
         $positions = [

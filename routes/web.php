@@ -95,6 +95,9 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
 
     Route::resource('announcements', AnnouncementsController::class);
     Route::patch('announcements/{id}/change-state',  [AnnouncementsController::class, 'changeState']);
+    
+    Route::delete('announcements/{id}/documents/{document}',  [AnnouncementsController::class, 'documentsDestroy']);
+    
 
     Route::resource('areas', AreaController::class);
 

@@ -18,13 +18,13 @@
                         <v-col cols="12" class="mt-2">
                             <v-text-field
                                 v-model="form.password"
-                                label="Correo"
+                                label="Nueva contraseña"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="mt-2">
                             <v-text-field
                                 v-model="form.password_confirmation"
-                                label="Confirmar contraseña"
+                                label="Confirmar nueva contraseña"
                             ></v-text-field>
                         </v-col>
 
