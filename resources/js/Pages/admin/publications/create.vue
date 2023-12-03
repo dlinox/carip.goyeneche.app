@@ -5,6 +5,35 @@
         @onCancel="$emit('onCancel')"
         @onSumbit="submit"
     >
+        <template #field.img_path>
+            <v-card variant="tonal">
+                <CropCompressImage
+                    :aspect-ratio="16 / 9"
+                    @onCropper="
+                        (previewImg = $event.blob), (form.img_path = $event.file)
+                    "
+                />
+
+                <v-img
+                    v-if="previewImg"
+                    class="mx-auto"
+                    :width="300"
+                    aspect-ratio="16/9"
+                    cover
+                    :src="previewImg"
+                ></v-img>
+
+                <v-img
+                    v-if="form.photoUrl && !previewImg"
+                    class="mx-auto"
+                    :width="300"
+                    aspect-ratio="16/9"
+                    cover
+                    :src="form.photoUrl"
+                ></v-img>
+            </v-card>
+        </template>
+
         <template #field.documents>
             <v-btn
                 color="primary"
@@ -60,65 +89,17 @@
                 </v-card-item>
             </v-card>
 
-            <!-- <v-list-item class="py-0">
-                <v-file-input
-                    @change="handleFileChangeDoc"
-                    v-model="form.document"
-                    show-size
-                    single
-                    :clearable="false"
-                    label="Seleccione el documento"
-                    accept="application/pdf"
-                    class="mb-1 mt-2"
-                >
-                    <template v-if="form.document" #append>
-                        <v-btn
-                            variant="tonal"
-                            rounded="lg"
-                            icon="mdi-close"
-                            size="small"
-                            @click="cancelUploadGuide"
-                        />
-                    </template>
-                </v-file-input>
-            </v-list-item>
-
-            <v-card variant="tonal">
-                <v-list-item
-                    v-for="(file, fileIndex) in fileListDocs"
-                    :key="file.name"
-                >
-                    <template v-slot:prepend>
-                        <a :href="file.url" target="_blank" class="me-3">
-                            <v-icon color="red" icon="mdi-file-pdf-box">
-                            </v-icon>
-                        </a>
-                    </template>
-
-                    <v-list-item-title>
-                        <small> {{ file.name }} </small>
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                        {{ file.size }} bytes
-                    </v-list-item-subtitle>
-
-                    <v-list-item-subtitle class="text-red">
-                        <small>
-                            {{ form.errors.document }}
-                        </small>
-                    </v-list-item-subtitle>
-                </v-list-item>
-            </v-card> -->
         </template>
     </SimpleForm>
-
 </template>
 
 <script setup>
 import { ref } from "vue";
 import SimpleForm from "@/components/SimpleForm.vue";
 import { useForm } from "@inertiajs/vue3";
+import CropCompressImage from "@/components/CropCompressImage.vue";
 import { useObjectUrl } from "@vueuse/core";
+
 const emit = defineEmits(["onCancel", "onSubmit"]);
 
 const props = defineProps({
@@ -127,7 +108,6 @@ const props = defineProps({
         default: (props) =>
             props.formStructure?.reduce((acc, item) => {
                 acc[item.key] = item.default;
-
                 return acc;
             }, {}),
     },
@@ -141,13 +121,11 @@ const props = defineProps({
     url: String,
 });
 
-const form = useForm({ ...props.formData, documents: [] });
+const previewImg = ref(null);
 
-const submit = async () => {
-    form.transform((data) => ({
-        ...data,
-    })).post(props.url, option);
-};
+const form = useForm({ ...props.formData, img_path: null,  documents: [] });
+
+
 
 const fileListDocs = ref([]);
 
@@ -179,8 +157,8 @@ const addFile = () => {
     });
 };
 
-const removeFile = (index) => {
-    form.documents.splice(index, 1);
+const submit = async () => {
+    form.post(props.url, option);
 };
 
 const option = {

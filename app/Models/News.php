@@ -18,11 +18,13 @@ class News extends Model
         'date_publish',
         'external_link',
         'author', 
-        'is_active'
+        'is_active',
+        'is_featured'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     protected $appends = [
@@ -38,11 +40,11 @@ class News extends Model
         ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
         ['text' => "Título", 'value' => "title", 'short' => false, 'order' => 'ASC'],
         ['text' => "Descripción", 'value' => "description", 'short' => false, 'order' => 'ASC'],
-     
         ['text' => "Fecha de publicación", 'value' => "date_publish", 'short' => false, 'order' => 'ASC'],
         ['text' => "Enlace externo", 'value' => "external_link", 'short' => false, 'order' => 'ASC'],
         ['text' => "Estado", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
-        ['text' => "Autor", 'value' => "author", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Destacado", 'value' => "is_featured", 'short' => false, 'order' => 'ASC'],
+        // ['text' => "Autor", 'value' => "author", 'short' => false, 'order' => 'ASC'],
     ];
 
     public function author()

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('content');
             $table->date('date_publish');
             $table->string('external_link')->nullable();
+            $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('author')->nullable();
             $table->foreign('author')->references('id')->on('users')->onUpdate('cascade')->onDelete('no action');

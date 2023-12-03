@@ -63,16 +63,50 @@
                             </v-btn>
                         </template>
 
-                        <template v-slot:action="{ item }">
-                        
+                        <template v-slot:item.is_featured="{ item }">
                             <v-btn
-                                
+                                :color="
+                                    item.is_featured
+                                        ? 'cyan-darken-4'
+                                        : 'seconday'
+                                "
+                                variant="tonal"
+                            >
+                                <DialogConfirm
+                                    :text="
+                                        item.is_featured
+                                            ? '¿Quitar de destacados?'
+                                            : '¿Destacar noticia?'
+                                    "
+                                    @onConfirm="
+                                        () =>
+                                            router.patch(
+                                                url +
+                                                    '/' +
+                                                    item[`${primaryKey}`] +
+                                                    '/change-featured'
+                                            )
+                                    "
+                                />
+                                {{ item.is_featured ? "Destacado" : "Normal" }}
+                            </v-btn>
+                        </template>
+                        <template v-slot:action="{ item }">
+                            <v-btn
                                 variant="outlined"
                                 density="comfortable"
                                 class="ml-1"
                                 color="blue"
                                 icon="mdi-pencil"
-                                @click="router.get(url + '/' + item[`${primaryKey}`] + '/' + 'edit')"
+                                @click="
+                                    router.get(
+                                        url +
+                                            '/' +
+                                            item[`${primaryKey}`] +
+                                            '/' +
+                                            'edit'
+                                    )
+                                "
                             />
 
                             <v-btn
@@ -120,5 +154,4 @@ const props = defineProps({
 
 const primaryKey = "id";
 const url = "/a/news";
-
 </script>

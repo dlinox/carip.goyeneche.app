@@ -12,6 +12,7 @@ use App\Http\Controllers\Administrator\IntermediateServiceController;
 use App\Http\Controllers\Administrator\NewsController;
 use App\Http\Controllers\Administrator\ObjetiveController;
 use App\Http\Controllers\Administrator\OfficeController;
+use App\Http\Controllers\Administrator\PublicationController;
 use App\Http\Controllers\Administrator\PurchaseAndServiceController;
 use App\Http\Controllers\Administrator\ServicePortfolioController;
 use App\Http\Controllers\Administrator\SliderController;
@@ -19,7 +20,7 @@ use App\Http\Controllers\Administrator\SupportingServicesController;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\Administrator\WorkerController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Mail\ResetPasswordEmail;
+use App\Models\PublicationDocument;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -111,13 +112,17 @@ Route::middleware(['auth'])->name('a.')->prefix('a')->group(function () {
     //news
     Route::resource('news', NewsController::class);
     Route::patch('news/{id}/change-state',  [NewsController::class, 'changeState']);
+    Route::patch('news/{id}/change-featured', [NewsController::class, 'changeFeatured']);
 
     Route::resource('events-and-campaigns', EventsAndCampaignsController::class);
     Route::patch('events-and-campaigns/{id}/change-state',  [EventsAndCampaignsController::class, 'changeState']);
+    Route::patch('events-and-campaigns/{id}/change-featured', [EventsAndCampaignsController::class, 'changeFeatured']);
 
-    // Route::get('sliders',  function () {
-    //     return Inertia::render('admin/sliders/index');
-    // });
+    //publications
+    Route::resource('publications',  PublicationController::class);
+    Route::patch('publications/{id}/change-state',  [PublicationController::class, 'changeState']);
+    Route::delete('publications/{id}/documents/{document}',  [PublicationController::class, 'documentsDestroy']);
+    
     
     Route::resource('sliders', SliderController::class);
     Route::patch('sliders/{id}/change-state',  [SliderController::class, 'changeState']);

@@ -11,19 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('news', function (Blueprint $table) {
+        Schema::create('publications', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
+            $table->string('img_path');
             $table->string('description');
-            $table->string("slug")->nullable();
-            $table->string('image');
-            $table->text('content');
-            $table->date('date_publish');
-            $table->string('external_link')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_featured')->default(false);
             $table->unsignedBigInteger('author')->nullable();
             $table->foreign('author')->references('id')->on('users')->onUpdate('cascade')->onDelete('no action');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('news');
+        Schema::dropIfExists('publications');
     }
 };

@@ -20,12 +20,10 @@ class PurchaseAndServiceController extends Controller
 
     public function index()
     {
-
         $purchaseAndServices = PurchaseAndService::first();
         return Inertia::render('admin/purchaseAndService/index', [
             'item' => $purchaseAndServices
         ]);
-
     }
 
     public function store(Request $request){

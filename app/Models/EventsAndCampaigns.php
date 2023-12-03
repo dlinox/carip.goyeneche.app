@@ -19,11 +19,14 @@ class EventsAndCampaigns extends Model
         'date_publish',
         'external_link',
         'author', 
+        'is_featured',
         'is_active'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
+
     ];
 
     protected $appends = [
@@ -42,6 +45,7 @@ class EventsAndCampaigns extends Model
      
         ['text' => "Fecha de publicación", 'value' => "date_publish", 'short' => false, 'order' => 'ASC'],
         ['text' => "Enlace externo", 'value' => "external_link", 'short' => false, 'order' => 'ASC'],
+        ['text' => "Destacado", 'value' => "is_featured", 'short' => false, 'order' => 'ASC'],
         ['text' => "Estado", 'value' => "is_active", 'short' => false, 'order' => 'ASC'],
         ['text' => "Autor", 'value' => "author", 'short' => false, 'order' => 'ASC'],
     ];

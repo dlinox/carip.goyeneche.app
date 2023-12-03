@@ -111,7 +111,6 @@ const menuOperator1 = [
         to: "",
         group: null,
     },
-
     {
         title: "Gestión de infomes y publicaciones",
         value: "plubli",
@@ -144,7 +143,6 @@ const menuOperator2 = [
         to: "",
         group: null,
     },
-
     {
         title: "Gestión de infomes y publicaciones",
         value: "plubli",
@@ -228,6 +226,13 @@ const menuMain = [
                 value: "institutional",
                 icon: "mdi-inbox-arrow-down-outline",
                 to: "workers",
+                group: null,
+            },
+
+            {
+                title: "Slider",
+                value: "web",
+                to: "sliders",
                 group: null,
             },
         ],
@@ -317,6 +322,13 @@ const menuMain = [
         group: null,
     },
     {
+        title: "Getion de publicaciones",
+        value: "consultar",
+        icon: "mdi-inbox-arrow-down-outline",
+        to: "publications",
+        group: null,
+    },
+    {
         title: "Gestion de campañas y eventos",
         value: "consultar",
         icon: "mdi-inbox-arrow-down-outline",
@@ -352,27 +364,6 @@ const menuMain = [
                 to: "areas",
                 group: null,
             },
-        ],
-    },
-
-    {
-        title: "Gestion de la web",
-        value: "web",
-        icon: "mdi-web",
-        to: "#",
-        group: [
-            {
-                title: "Slider",
-                value: "web",
-                to: "sliders",
-                group: null,
-            },
-            // {
-            //     title: "Notificaciones",
-            //     value: "web",
-            //     to: "notifications",
-            //     group: null,
-            // },
         ],
     },
 ];

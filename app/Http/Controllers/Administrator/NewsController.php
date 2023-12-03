@@ -142,4 +142,13 @@ class NewsController extends Controller
         $user->save();
         return redirect()->back()->with('success', 'Estado cambiado exitosamente.');
     }
+
+    public function changeFeatured($id)
+    {
+        $user = News::find($id);
+        $user->is_featured = !$user->is_featured;
+        $user->save();
+        return redirect()->back()->with('success', 'Destacado cambiado exitosamente.');
+    }
+    
 }
