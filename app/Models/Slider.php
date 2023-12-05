@@ -19,6 +19,12 @@ class Slider extends Model
         "image_path"
     ];
 
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+    
     public $headers =  [
         ['text' => "ID", 'value' => "id", 'short' => false, 'order' => 'ASC'],
         ['text' => "Título", 'value' => "title", 'short' => false, 'order' => 'ASC'],

@@ -85,7 +85,9 @@ class PublicationController extends Controller
                     'img_path' => $request->file('img_path')->store('publications', 'public'),
                 ]);
 
-                foreach ($request->documents as $document) {
+                $documents = $request->documents ? $request->documents : [];
+
+                foreach ($documents as $document) {
                     PublicationDocument::create([
                         'publication_id' => $publication->id,
                         'name' => $document['fileName'],
