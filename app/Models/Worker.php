@@ -21,7 +21,6 @@ class Worker extends Model
         'is_active' => 'boolean',
     ];
 
-    
 
     public function person()
     {

@@ -35,6 +35,13 @@ class PersonPhoto extends Model
     protected $appends = [
         'url',
     ];
+    
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'mime_type',
+        'extension',
+    ];
 
     public function getUrlAttribute()
     {
