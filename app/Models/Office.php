@@ -16,6 +16,20 @@ class Office extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+    
+
+    protected $appends = [
+        'image_url',
+    ];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->img_path ? asset('storage/' . $this->img_path) : null;
+    }
+
     protected $hidden = [
         'created_at',
         'updated_at',

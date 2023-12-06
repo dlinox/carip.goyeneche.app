@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\Office;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 
@@ -18,21 +19,6 @@ class ApiController extends Controller
 
     public function getNews()
     {
-
-        /*
-
-         'title',
-        'description',
-        'slug',
-        'image',
-        'content',
-        'date_publish',
-        'external_link',
-        'author', 
-        'is_active',
-        'is_featured'
-        */
-        //obtenear el nombre del area del autor
 
         $news = News::select(
             'news.title',
@@ -52,6 +38,10 @@ class ApiController extends Controller
         return response()->json($news ? $news : []);
     }
 
+    public function getOffices(){
+        $offices = Office::all();
+        return response()->json($offices ? $offices : []);
+    }
 
     // public function getFe
 }
